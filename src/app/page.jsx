@@ -5,15 +5,12 @@ export default function Home() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-8 overflow-hidden">
-        <h1 className="text-center mb-6 relative z-10">
-          Creative Portfolio
-        </h1>
-        <p className="text-center max-w-2xl text-lg opacity-70 relative z-10">
-          Portfolio con 3D interattivo, smooth scroll e animazioni moderne.
-        </p>
-        <div className="mt-8 text-sm opacity-50 relative z-10">
-          ↓ Scroll Down
+        {/* 3D Background - Retro Computer */}
+        <div className="absolute inset-0 w-full h-full -z-10">
+          <Scene3D />
         </div>
+
+        
       </section>
 
       {/* Section 2 */}
