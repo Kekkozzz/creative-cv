@@ -1,13 +1,67 @@
 @import "tailwindcss";
 
+/* ============================================
+   DEVELOPER'S NIGHT - Design System
+   Dark mode palette for creative CV
+   ============================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Background Colors */
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #16161d;
+  --bg-tertiary: #1e1e2e;
+  --bg-surface: #24243a;
+
+  /* Text Colors */
+  --text-primary: #e4e4e7;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --text-dimmed: #52525b;
+
+  /* Accent Colors - Gradient Tech */
+  --accent-primary: #6366f1;      /* Indigo */
+  --accent-secondary: #8b5cf6;    /* Viola */
+  --accent-tertiary: #06b6d4;     /* Cyan */
+
+  /* Status Colors */
+  --success: #10b981;             /* Verde */
+  --warning: #f59e0b;             /* Ambra */
+  --error: #ef4444;               /* Rosso */
+
+  /* Glow Effects */
+  --glow-primary: rgba(99, 102, 241, 0.4);
+  --glow-secondary: rgba(139, 92, 246, 0.3);
+  --glow-tertiary: rgba(6, 182, 212, 0.3);
+
+  /* Code Editor */
+  --code-bg: #1e1e2e;
+  --code-text: #e4e4e7;
+  --code-comment: #6c7086;
+  --code-keyword: #8b5cf6;
+  --code-string: #10b981;
+  --code-function: #06b6d4;
+
+  /* Borders & Shadows */
+  --border-subtle: rgba(228, 228, 231, 0.1);
+  --border-medium: rgba(228, 228, 231, 0.2);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 24px var(--glow-primary);
+
+  /* Transitions */
+  --transition-fast: 150ms ease-out;
+  --transition-medium: 300ms ease-out;
+  --transition-slow: 600ms ease-out;
+
+  /* Legacy support */
+  --background: var(--bg-primary);
+  --foreground: var(--text-primary);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--bg-primary);
+  --color-foreground: var(--text-primary);
 
   /* Font families */
   --font-sans: var(--font-body);
@@ -15,6 +69,11 @@
   /* Custom font utilities */
   --font-family-heading: var(--font-heading);
   --font-family-body: var(--font-body);
+
+  /* Extend Tailwind with custom colors */
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-secondary: var(--accent-secondary);
+  --color-accent-tertiary: var(--accent-tertiary);
 }
 
 /* Tailwind utility classes for fonts */
@@ -26,17 +85,27 @@
   font-family: var(--font-body), system-ui, -apple-system, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Hide native browser scrollbar globally */
+html {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+html::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg-primary);
+  color: var(--text-primary);
   font-family: var(--font-body), system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+body::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
 }
 
 /* Typography System */
@@ -75,4 +144,93 @@ p {
   font-family: var(--font-body), system-ui, -apple-system, sans-serif;
   line-height: 1.7;
   font-weight: 400;
+}
+
+/* ============================================
+   ANIMATION & PERFORMANCE UTILITIES
+   ============================================ */
+
+/* GPU Acceleration for animated elements */
+.gpu-accelerated {
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+/* Glow effects */
+.glow-primary {
+  box-shadow: var(--shadow-glow);
+}
+
+.glow-text-primary {
+  text-shadow: 0 0 20px var(--glow-primary), 0 0 40px var(--glow-primary);
+}
+
+.glow-text-secondary {
+  text-shadow: 0 0 20px var(--glow-secondary), 0 0 40px var(--glow-secondary);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+}
+
+.gradient-text-animated {
+  animation: gradient-shift 8s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Cursor blink animation */
+@keyframes cursor-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: cursor-blink 1s step-end infinite;
+}
+
+/* Pulse animation for scroll indicator */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Smooth scroll snap */
+.scroll-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+/* Hide scrollbar but keep functionality */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Selection styling */
+::selection {
+  background-color: var(--accent-primary);
+  color: var(--bg-primary);
 }
