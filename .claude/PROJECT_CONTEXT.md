@@ -1,4 +1,4 @@
-# Creative CV - Francesco Urban
+# Creative CV - Francesco Romito
 ## Contesto Progetto e Progressi
 
 **Data ultimo aggiornamento**: 22 Ottobre 2025
@@ -7,7 +7,7 @@
 
 ## 🎯 Obiettivo del Progetto
 
-Creare un **CV creativo interattivo** che racconta la storia di Francesco Urban come developer, dal primo "Hello World" ai 900+ commit su GitHub. Il sito deve essere:
+Creare un **CV creativo interattivo** che racconta la storia di Francesco Romito come developer, dal primo "Hello World" ai 900+ commit su GitHub. Il sito deve essere:
 - **Narrativo**: Racconta una storia attraverso 10 sezioni
 - **Visivamente impattante**: Animazioni pesanti ma wow
 - **Tecnicamente avanzato**: Uso di 3D, GSAP, smooth scroll
@@ -250,7 +250,7 @@ smooth: true
 10. ⏳ **Oggi, E Domani** - Da fare
 
 ### Dati Reali Utente
-- **Nome**: Francesco Urban
+- **Nome**: Francesco Romito
 - **Ore formazione Aulab**: 600h (400h HTML/CSS/JS/PHP/Laravel + 200h JS/React)
 - **Commit ultimo anno**: 900+
 
@@ -287,7 +287,6 @@ smooth: true
 ## 🚧 Problemi Noti / TODO
 
 ### Problemi Minori
-- [ ] Nome nell'Hero ancora dice "Francesco Romito" (dovrebbe essere "Francesco Urban")
 - [ ] Cursore blinking nel CodeEditor non posizionato perfettamente durante typing
 - [ ] Mobile: Parallax disabilitato ma potrebbe essere migliorato
 
@@ -334,7 +333,6 @@ smooth: true
 ## 🎯 Next Steps (Prossima Sessione)
 
 ### Priorità Alta
-1. [ ] Correggere nome nell'Hero (Francesco Romito → Francesco Urban)
 2. [ ] Implementare Sezione 02 - "Aulab"
 3. [ ] Testare e fixare mobile responsive
 

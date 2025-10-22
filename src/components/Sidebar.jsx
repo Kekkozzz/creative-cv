@@ -5,15 +5,14 @@ import { getEnabledSections } from '@/data/sections';
 import { isMobile } from '@/utils/detectDevice';
 
 /**
- * Sidebar Navigation Component
- * Notion-style table of contents with scroll spy
- * - Fixed position on right side (desktop only)
- * - Active section highlighting
- * - Smooth scroll to sections
- * - Auto-hide when not needed
+ * Sidebar Navigation Component - Minimal Morozov Style
+ * - Only horizontal dashes on the right side
+ * - Hover reveals section title in modal
+ * - Active section highlighted
  */
 export default function Sidebar() {
   const [activeSection, setActiveSection] = useState('hero');
+  const [hoveredSection, setHoveredSection] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   const sidebarRef = useRef(null);
   const sections = getEnabledSections();
@@ -68,100 +67,97 @@ export default function Sidebar() {
   return (
     <aside
       ref={sidebarRef}
-      className={`fixed right-8 top-1/2 -translate-y-1/2 z-50 transition-all duration-500 ${
+      className={`fixed right-6 top-1/2 -translate-y-1/2 z-50 transition-all duration-500 ${
         isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'
       }`}
     >
-      <nav
-        className="rounded-lg p-4"
-        style={{
-          backgroundColor: 'rgba(22, 22, 29, 0.6)',
-          backdropFilter: 'blur(12px)',
-          border: '1px solid var(--border-subtle)',
-          boxShadow: 'var(--shadow-md)',
-        }}
-      >
-        {/* Progress indicator */}
-        <div
-          className="absolute left-2 top-4 bottom-4 w-0.5 rounded-full"
-          style={{ backgroundColor: 'var(--border-medium)' }}
-        >
-          <div
-            className="w-full rounded-full transition-all duration-300"
-            style={{
-              backgroundColor: 'var(--accent-primary)',
-              height: `${(sections.findIndex((s) => s.id === activeSection) / (sections.length - 1)) * 100}%`,
-              boxShadow: '0 0 8px var(--glow-primary)',
-            }}
-          />
-        </div>
+      <nav className="flex flex-col gap-6">
+        {sections.map((section) => {
+          const isActive = activeSection === section.id;
+          const isHovered = hoveredSection === section.id;
 
-        {/* Section links */}
-        <ul className="space-y-3 ml-6">
-          {sections.map((section) => {
-            const isActive = activeSection === section.id;
-
-            return (
-              <li key={section.id}>
-                <button
-                  onClick={() => scrollToSection(section.id)}
-                  className={`group flex items-center gap-3 text-left transition-all duration-200 ${
-                    isActive ? 'translate-x-1' : 'hover:translate-x-1'
-                  }`}
+          return (
+            <div key={section.id} className="relative flex items-center justify-end">
+              {/* Hover Modal/Tooltip */}
+              {isHovered && (
+                <div
+                  className="absolute right-full mr-4 whitespace-nowrap animate-fade-in"
                   style={{
-                    color: isActive ? 'var(--accent-primary)' : 'var(--text-muted)',
+                    animation: 'fadeIn 0.2s ease-out',
                   }}
                 >
-                  {/* Section number */}
-                  <span
-                    className={`font-mono text-xs font-semibold w-6 text-right transition-all duration-200 ${
-                      isActive ? 'scale-110' : 'group-hover:scale-110'
-                    }`}
+                  <div
+                    className="px-4 py-2 rounded-md"
                     style={{
-                      color: isActive ? 'var(--accent-primary)' : 'var(--text-dimmed)',
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      backdropFilter: 'blur(12px)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
                     }}
                   >
-                    {section.number}
-                  </span>
-
-                  {/* Section title */}
-                  <span
-                    className={`font-body text-sm whitespace-nowrap transition-all duration-200 ${
-                      isActive ? 'font-semibold' : 'font-normal group-hover:font-medium'
-                    }`}
-                  >
-                    {section.shortTitle}
-                  </span>
-
-                  {/* Active indicator dot */}
-                  {isActive && (
+                    {/* Section number */}
                     <span
-                      className="w-1.5 h-1.5 rounded-full animate-pulse"
-                      style={{
-                        backgroundColor: 'var(--accent-primary)',
-                        boxShadow: '0 0 6px var(--glow-primary)',
-                      }}
-                    />
-                  )}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+                      className="font-mono text-xs mr-3"
+                      style={{ color: 'var(--accent-primary)' }}
+                    >
+                      {section.number}
+                    </span>
+                    {/* Section title */}
+                    <span
+                      className="font-body text-sm"
+                      style={{ color: '#e4e4e7' }}
+                    >
+                      {section.shortTitle}
+                    </span>
+                  </div>
+                </div>
+              )}
 
-        {/* Optional: Total progress percentage */}
-        <div
-          className="mt-4 pt-4 border-t text-center"
-          style={{ borderColor: 'var(--border-subtle)' }}
-        >
-          <span
-            className="font-mono text-xs"
-            style={{ color: 'var(--text-dimmed)' }}
-          >
-            {Math.round((sections.findIndex((s) => s.id === activeSection) / (sections.length - 1)) * 100)}%
-          </span>
-        </div>
+              {/* Dash/Line Button */}
+              <button
+                onClick={() => scrollToSection(section.id)}
+                onMouseEnter={() => setHoveredSection(section.id)}
+                onMouseLeave={() => setHoveredSection(null)}
+                className="group relative transition-all duration-300"
+                style={{
+                  width: isActive ? '40px' : '24px',
+                  height: '2px',
+                  background: isActive ? 'var(--accent-primary)' : 'rgba(255, 255, 255, 0.3)',
+                  boxShadow: isActive ? '0 0 8px var(--glow-primary)' : 'none',
+                }}
+                aria-label={section.shortTitle}
+              >
+              </button>
+            </div>
+          );
+        })}
       </nav>
+
+      {/* Optional: Progress percentage (minimal) */}
+      <div className="mt-8 text-right">
+        <span
+          className="font-mono text-xs"
+          style={{ color: 'rgba(255, 255, 255, 0.3)' }}
+        >
+          {String(Math.round((sections.findIndex((s) => s.id === activeSection) / (sections.length - 1)) * 100)).padStart(2, '0')}%
+        </span>
+      </div>
+
+      {/* Fade-in animation keyframe */}
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateX(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        .animate-fade-in {
+          animation: fadeIn 0.2s ease-out;
+        }
+      `}</style>
     </aside>
   );
 }
