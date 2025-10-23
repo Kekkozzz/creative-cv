@@ -14,16 +14,59 @@ export default function Sidebar() {
   const [activeSection, setActiveSection] = useState('hero');
   const [hoveredSection, setHoveredSection] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [showSectionNotification, setShowSectionNotification] = useState(false);
+  const [isNotificationExiting, setIsNotificationExiting] = useState(false);
+  const [isSidebarHovered, setIsSidebarHovered] = useState(false);
   const sidebarRef = useRef(null);
+  const notificationTimerRef = useRef(null);
   const sections = getEnabledSections();
   const mobile = typeof window !== 'undefined' && isMobile();
 
   // Hide sidebar on mobile
   if (mobile) return null;
 
+  // Show notification when section changes
+  useEffect(() => {
+    // Don't show notification on initial mount
+    if (activeSection === 'hero' && !isVisible) return;
+
+    // Clear existing timer
+    if (notificationTimerRef.current) {
+      clearTimeout(notificationTimerRef.current);
+    }
+
+    // Reset exit state and show notification
+    setIsNotificationExiting(false);
+    setShowSectionNotification(true);
+
+    // Start fade out after 2 seconds
+    notificationTimerRef.current = setTimeout(() => {
+      setIsNotificationExiting(true);
+
+      // Completely hide after fade out animation (300ms)
+      setTimeout(() => {
+        setShowSectionNotification(false);
+        setIsNotificationExiting(false);
+      }, 300);
+    }, 2000);
+
+    return () => {
+      if (notificationTimerRef.current) {
+        clearTimeout(notificationTimerRef.current);
+      }
+    };
+  }, [activeSection, isVisible]);
+
   useEffect(() => {
     // Show sidebar after short delay
     const timer = setTimeout(() => setIsVisible(true), 1000);
+
+    // Scroll listener to detect when at the top (Hero section)
+    const handleScroll = () => {
+      if (window.scrollY < 100) {
+        setActiveSection('hero');
+      }
+    };
 
     // Intersection Observer for scroll spy
     const observerOptions = {
@@ -50,10 +93,14 @@ export default function Sidebar() {
       }
     });
 
+    // Add scroll listener
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
     // Cleanup
     return () => {
       clearTimeout(timer);
       observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
     };
   }, [sections]);
 
@@ -67,44 +114,46 @@ export default function Sidebar() {
   return (
     <aside
       ref={sidebarRef}
-      className={`fixed right-6 top-1/2 -translate-y-1/2 z-50 transition-all duration-500 ${
-        isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'
-      }`}
+      className={`fixed right-6 top-1/2 -translate-y-1/2 z-50 transition-all duration-500 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'
+        }`}
     >
-      <nav className="flex flex-col gap-6">
+      <nav
+        className="flex flex-col gap-6"
+        onMouseEnter={() => setIsSidebarHovered(true)}
+        onMouseLeave={() => setIsSidebarHovered(false)}
+      >
         {sections.map((section) => {
           const isActive = activeSection === section.id;
           const isHovered = hoveredSection === section.id;
+          const showTooltip = isHovered || (isActive && showSectionNotification);
 
           return (
             <div key={section.id} className="relative flex items-center justify-end">
-              {/* Hover Modal/Tooltip */}
-              {isHovered && (
+              {/* Tooltip - Shows on hover OR on section change (if active) */}
+              {showTooltip && (
                 <div
-                  className="absolute right-full mr-4 whitespace-nowrap animate-fade-in"
+                  className="absolute right-full mr-3 whitespace-nowrap"
                   style={{
-                    animation: 'fadeIn 0.2s ease-out',
+                    animation:
+                      isActive && isNotificationExiting
+                        ? 'fadeOut 0.3s ease-out forwards'
+                        : isActive && showSectionNotification
+                          ? 'slideIn 0.3s ease-in forwards'
+                          : 'fadeIn 0.2s ease-out',
                   }}
                 >
                   <div
-                    className="px-4 py-2 rounded-md"
+                    className="px-2 py-0.5"
                     style={{
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      backdropFilter: 'blur(12px)',
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      background: 'rgba(255, 255, 255, 0.02)',
+                      backdropFilter: 'blur(8px)',
+                      borderLeft: '1px solid rgba(255, 255, 255, 0.15)',
                     }}
                   >
-                    {/* Section number */}
+                    {/* Section title only - ultra minimal */}
                     <span
-                      className="font-mono text-xs mr-3"
-                      style={{ color: 'var(--accent-primary)' }}
-                    >
-                      {section.number}
-                    </span>
-                    {/* Section title */}
-                    <span
-                      className="font-body text-sm"
-                      style={{ color: '#e4e4e7' }}
+                      className="font-body text-[10px] font-light tracking-wide"
+                      style={{ color: 'rgba(255, 255, 255, 0.4)' }}
                     >
                       {section.shortTitle}
                     </span>
@@ -117,10 +166,10 @@ export default function Sidebar() {
                 onClick={() => scrollToSection(section.id)}
                 onMouseEnter={() => setHoveredSection(section.id)}
                 onMouseLeave={() => setHoveredSection(null)}
-                className="group relative transition-all duration-300"
+                className="group relative transition-all duration-200 cursor-pointer"
                 style={{
-                  width: isActive ? '40px' : '24px',
-                  height: '2px',
+                  width: isActive ? '40px' : isHovered ? '32px' : '24px',
+                  height: isSidebarHovered ? '8px' : '2px',
                   background: isActive ? 'var(--accent-primary)' : 'rgba(255, 255, 255, 0.3)',
                   boxShadow: isActive ? '0 0 8px var(--glow-primary)' : 'none',
                 }}
@@ -132,17 +181,7 @@ export default function Sidebar() {
         })}
       </nav>
 
-      {/* Optional: Progress percentage (minimal) */}
-      <div className="mt-8 text-right">
-        <span
-          className="font-mono text-xs"
-          style={{ color: 'rgba(255, 255, 255, 0.3)' }}
-        >
-          {String(Math.round((sections.findIndex((s) => s.id === activeSection) / (sections.length - 1)) * 100)).padStart(2, '0')}%
-        </span>
-      </div>
-
-      {/* Fade-in animation keyframe */}
+      {/* Animations keyframes */}
       <style jsx>{`
         @keyframes fadeIn {
           from {
@@ -154,8 +193,27 @@ export default function Sidebar() {
             transform: translateX(0);
           }
         }
-        .animate-fade-in {
-          animation: fadeIn 0.2s ease-out;
+
+        @keyframes slideIn {
+          0% {
+            opacity: 0;
+            transform: translateX(8px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes fadeOut {
+          from {
+            opacity: 1;
+            transform: translateX(0);
+          }
+          to {
+            opacity: 0;
+            transform: translateX(-8px);
+          }
         }
       `}</style>
     </aside>
@@ -165,39 +223,8 @@ export default function Sidebar() {
 /**
  * Alternative: Mobile Progress Bar
  * Shows at top of screen on mobile instead of sidebar
+ * DISABLED - Not currently in use
  */
 export function MobileProgressBar() {
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const mobile = typeof window !== 'undefined' && isMobile();
-
-  useEffect(() => {
-    if (!mobile) return;
-
-    const handleScroll = () => {
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (window.scrollY / totalHeight) * 100;
-      setScrollProgress(progress);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [mobile]);
-
-  if (!mobile) return null;
-
-  return (
-    <div
-      className="fixed top-0 left-0 right-0 h-1 z-50"
-      style={{ backgroundColor: 'var(--bg-tertiary)' }}
-    >
-      <div
-        className="h-full transition-all duration-150"
-        style={{
-          width: `${scrollProgress}%`,
-          backgroundColor: 'var(--accent-primary)',
-          boxShadow: '0 0 8px var(--glow-primary)',
-        }}
-      />
-    </div>
-  );
+  return null;
 }
