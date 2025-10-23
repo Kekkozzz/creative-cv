@@ -166,7 +166,7 @@ export default function Sidebar() {
                 onClick={() => scrollToSection(section.id)}
                 onMouseEnter={() => setHoveredSection(section.id)}
                 onMouseLeave={() => setHoveredSection(null)}
-                className="group relative transition-all duration-200 cursor-pointer"
+                className="group relative transition-all duration-200 cursor-pointer rounded-xl"
                 style={{
                   width: isActive ? '40px' : isHovered ? '32px' : '24px',
                   height: isSidebarHovered ? '8px' : '2px',

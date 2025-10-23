@@ -1,5 +1,7 @@
 import Hero from '@/components/Hero';
+import Section01Intro from '@/components/Section01Intro';
 import Section01 from '@/components/Section01';
+import FineHero from '@/components/FineHero';
 import Sidebar, { MobileProgressBar } from '@/components/Sidebar';
 
 /**
@@ -9,9 +11,6 @@ import Sidebar, { MobileProgressBar } from '@/components/Sidebar';
 export default function Home() {
   return (
     <>
-      {/* Mobile Progress Bar (mobile only) */}
-      <MobileProgressBar />
-
       {/* Sidebar Navigation (desktop only) */}
       <Sidebar />
 
@@ -19,8 +18,12 @@ export default function Home() {
       <main className="relative">
         {/* Hero Section - Introduction */}
         <Hero />
+        <FineHero />
 
-        {/* Section 01 - La Prima Riga */}
+        {/* Chapter 01: La Prima Riga */}
+        {/* Intro - Chapter opening */}
+        <Section01Intro />
+        {/* Content - The story */}
         <Section01 />
 
         {/* Future sections will be added here */}

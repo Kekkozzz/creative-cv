@@ -163,7 +163,7 @@ export default function Hero() {
           className="absolute right-0 top-1/2 -translate-y-1/2 hidden lg:block z-5"
           style={{
             width: 'clamp(600px, 60vw, 1200px)',
-            height: 'clamp(700px, 85vh, 900px)',
+            height: 'clamp(700px, 100vh, 909px)',
           }}
         >
           <Image

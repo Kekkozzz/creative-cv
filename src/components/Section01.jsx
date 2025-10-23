@@ -252,7 +252,7 @@ export default function Section01() {
           </div>
 
           {/* Right: Code Editors with typing animation */}
-          <div ref={editorRef} className="gpu-accelerated space-y-6">
+          <div ref={editorRef} className="space-y-6">
             {/* HTML Editor */}
             <CodeEditor
               code={CodeExamples.helloWorldHTML}

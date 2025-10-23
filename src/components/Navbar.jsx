@@ -55,7 +55,7 @@ export default function Navbar() {
           <div>
             <a
               href="#hero"
-              className="font-heading font-bold text-white tracking-tight transition-colors duration-300 hover:text-[var(--accent-primary)]"
+              className="font-heading font-bold text-white tracking-tight transition-colors duration-300 hover:text-accent-primary"
               style={{
                 fontSize: 'clamp(1.25rem, 2vw, 1.5rem)',
                 letterSpacing: '0.05em',

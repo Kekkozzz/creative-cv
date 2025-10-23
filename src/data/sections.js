@@ -17,7 +17,7 @@ export const sections = [
     id: 'section01',
     number: '01',
     title: 'La Prima Riga',
-    shortTitle: 'Prima Riga',
+    shortTitle: 'La Prima Riga',
     fullTitle: 'La Prima Riga di Codice',
     enabled: true,
   },
