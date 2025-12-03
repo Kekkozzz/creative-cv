@@ -81,12 +81,21 @@ export async function POST(request) {
 
     console.log('[Twilio Voice] Validazione completata. Connessione chiamata da', callerId, 'a', to);
 
-    // NOTA: Media Stream disabilitato su Vercel (non supporta WebSocket)
-    // Per abilitarlo, usa un server custom con `npm run dev:phone`
-    // const host = process.env.MEDIA_STREAM_HOST || 'localhost:3000';
-    // const protocol = host.includes('localhost') ? 'ws' : 'wss';
-    // const streamUrl = `${protocol}://${host}/media-stream`;
-    // response.start().stream({ url: streamUrl, track: 'both_tracks' });
+    // Media Stream per trascrizione AI
+    // IMPORTANTE: Funziona solo con server custom (npm run dev:phone) o deploy con WebSocket
+    // Su Vercel standard, questa funzione NON funzionerà
+    const enableMediaStream = process.env.ENABLE_MEDIA_STREAM === 'true';
+
+    if (enableMediaStream) {
+      const host = process.env.MEDIA_STREAM_HOST || 'localhost:3000';
+      const protocol = host.includes('localhost') ? 'ws' : 'wss';
+      const streamUrl = `${protocol}://${host}/media-stream`;
+
+      console.log('[Twilio Voice] Media Stream abilitato:', streamUrl);
+      response.start().stream({ url: streamUrl, track: 'both_tracks' });
+    } else {
+      console.log('[Twilio Voice] Media Stream disabilitato (set ENABLE_MEDIA_STREAM=true per abilitare)');
+    }
 
     // Dial collega la chiamata dal browser al numero di telefono
     const dial = response.dial({
