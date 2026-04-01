@@ -113,4 +113,21 @@ export const chapters = [
       text: "Quando è arrivata l'AI, molti avevano paura. Io ho visto un'opportunità. Copilot, ChatGPT, Claude... Sono diventati parte del mio workflow, moltiplicando la mia produttività.",
     },
   },
+  {
+    id: 7,
+    title: 'ANIMAZIONI',
+    subtitle: 'Dare vita al web',
+    materiality: 0.85,
+    objects: ['desk', 'flatMonitor', 'secondMonitor', 'chair', 'mug', 'keyboard', 'headphones', 'plant', 'badge', 'animationPanel', 'colorParticles', 'mugSteam'],
+    clickables: [
+      { id: 'animationPanel', action: 'typing', content: 'GSAP timeline + easing + stagger + 60fps' },
+    ],
+    bloomIntensity: 0.95,
+    narrativePosition: 'left',
+    narrativeContent: {
+      number: '07',
+      heading: 'Le Animazioni',
+      text: "GSAP è stato come scoprire di poter dipingere dopo aver solo disegnato. Ogni animazione racconta qualcosa, ogni movimento ha uno scopo. Non è decorazione, è comunicazione.",
+    },
+  },
 ]

@@ -5,19 +5,31 @@ import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import MorphableObject from '../MorphableObject'
 
-export default function DeskPlant({ materiality = 0, accentColor = '#6366f1', ...rest }) {
+export default function DeskPlant({ materiality = 0, accentColor = '#6366f1', lively = false, ...rest }) {
   const potGeo = useMemo(() => new THREE.CylinderGeometry(0.05, 0.04, 0.08, 10), [])
   const soilGeo = useMemo(() => new THREE.CylinderGeometry(0.045, 0.045, 0.01, 10), [])
   const leafGeo = useMemo(() => new THREE.SphereGeometry(0.025, 6, 6), [])
 
+  const groupRef = useRef()
   const leavesRef = useRef()
 
   // Subtle sway
   useFrame(({ clock }) => {
+    const t = clock.getElapsedTime()
+
+    if (groupRef.current) {
+      const growth = lively ? 1.12 : 1
+      const pulse = lively ? 1 + Math.sin(t * 2.6) * 0.03 : 1
+      const targetScale = growth * pulse
+      const s = THREE.MathUtils.lerp(groupRef.current.scale.x, targetScale, 0.08)
+      groupRef.current.scale.setScalar(s)
+    }
+
     if (leavesRef.current) {
-      const t = clock.getElapsedTime()
-      leavesRef.current.rotation.z = Math.sin(t * 0.8) * 0.03
-      leavesRef.current.rotation.x = Math.sin(t * 0.6) * 0.02
+      const swayZ = lively ? 0.08 : 0.03
+      const swayX = lively ? 0.05 : 0.02
+      leavesRef.current.rotation.z = Math.sin(t * (lively ? 1.8 : 0.8)) * swayZ
+      leavesRef.current.rotation.x = Math.sin(t * (lively ? 1.3 : 0.6)) * swayX
     }
   })
 
@@ -30,7 +42,7 @@ export default function DeskPlant({ materiality = 0, accentColor = '#6366f1', ..
   ]
 
   return (
-    <group {...rest}>
+    <group ref={groupRef} {...rest}>
       {/* Pot */}
       <MorphableObject
         geometry={potGeo}

@@ -1,53 +1,60 @@
-// 7 chapters — each gets ~14% of scroll range
+// 8 chapters — each gets ~12.5% of scroll range
 export const cameraKeyframes = [
   {
     chapter: 0,
-    scrollRange: [0.0, 0.14],
+    scrollRange: [0.0, 0.125],
     position: [0, 1.8, 4.5],
     target: [0, 0.7, 0],
     fov: 50,
   },
   {
     chapter: 1,
-    scrollRange: [0.14, 0.28],
+    scrollRange: [0.125, 0.25],
     position: [-1.5, 1.5, 3.5],
     target: [0, 0.8, -0.2],
     fov: 48,
   },
   {
     chapter: 2,
-    scrollRange: [0.28, 0.42],
+    scrollRange: [0.25, 0.375],
     position: [0.5, 2.2, 4],
     target: [0, 0.7, 0],
     fov: 52,
   },
   {
     chapter: 3,
-    scrollRange: [0.42, 0.56],
+    scrollRange: [0.375, 0.5],
     position: [1, 1.6, 3.8],
     target: [-0.2, 0.7, -0.3],
     fov: 50,
   },
   {
     chapter: 4,
-    scrollRange: [0.56, 0.70],
+    scrollRange: [0.5, 0.625],
     position: [-0.8, 1.7, 3.2],
     target: [0.2, 0.8, -0.2],
     fov: 46,
   },
   {
     chapter: 5,
-    scrollRange: [0.70, 0.84],
+    scrollRange: [0.625, 0.75],
     position: [0.3, 2, 4.2],
     target: [0, 0.7, 0],
     fov: 52,
   },
   {
     chapter: 6,
-    scrollRange: [0.84, 0.96],
+    scrollRange: [0.75, 0.875],
     position: [0, 1.9, 3.5],
     target: [0, 1.0, -0.2],
     fov: 48,
+  },
+  {
+    chapter: 7,
+    scrollRange: [0.875, 1.0],
+    position: [0.6, 2.0, 3.25],
+    target: [0.05, 0.95, -0.1],
+    fov: 46,
   },
 ]
 

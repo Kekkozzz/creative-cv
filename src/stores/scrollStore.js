@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { cameraKeyframes } from '@/data/cameraPath'
+import { chapters } from '@/data/chapters'
 
 function getChapterFromProgress(p) {
   let chapter = 0
@@ -12,9 +13,27 @@ function getChapterFromProgress(p) {
 }
 
 function getMaterialityFromProgress(p) {
-  // Materiality ramps from 0 to 1 across the full scroll
-  // Reaches 1.0 at ~90% scroll (leaving room for Ch.10 to go "beyond solid")
-  return Math.min(1, p * 1.2)
+  if (cameraKeyframes.length === 0 || chapters.length === 0) return 0
+
+  let currentIdx = 0
+  for (let i = 0; i < cameraKeyframes.length; i++) {
+    if (p >= cameraKeyframes[i].scrollRange[0]) {
+      currentIdx = i
+    }
+  }
+
+  const nextIdx = Math.min(currentIdx + 1, chapters.length - 1)
+  const currentMateriality = chapters[currentIdx]?.materiality ?? 0
+  const nextMateriality = chapters[nextIdx]?.materiality ?? currentMateriality
+
+  const range = cameraKeyframes[currentIdx]?.scrollRange ?? [0, 1]
+  const rangeStart = range[0]
+  const rangeEnd = range[1]
+  const rawT = rangeEnd > rangeStart ? (p - rangeStart) / (rangeEnd - rangeStart) : 0
+  const t = Math.max(0, Math.min(1, rawT))
+  const easedT = t * t * (3 - 2 * t)
+
+  return currentMateriality + (nextMateriality - currentMateriality) * easedT
 }
 
 const useScrollStore = create((set) => ({

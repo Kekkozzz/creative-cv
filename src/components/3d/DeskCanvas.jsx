@@ -22,8 +22,12 @@ import Headphones from './objects/Headphones'
 import DeskPlant from './objects/DeskPlant'
 import PostItWall from './objects/PostItWall'
 import GitGraph from './objects/GitGraph'
+import IDBadge from './objects/IDBadge'
 import AIHologram from './objects/AIHologram'
 import AIPromptPanel from './objects/AIPromptPanel'
+import AnimationLoopPanel from './objects/AnimationLoopPanel'
+import ColorParticles from './objects/ColorParticles'
+import MugSteam from './objects/MugSteam'
 import FadeInGroup from './FadeInGroup'
 import useScrollStore from '@/stores/scrollStore'
 
@@ -36,6 +40,13 @@ function Scene() {
     openModal({
       type: 'typing',
       content: '> Hello World\n\nconsole.log("Hello World!");\n// Il mio primo programma...',
+    })
+  }, [openModal])
+
+  const handleAnimationPanelClick = useCallback(() => {
+    openModal({
+      type: 'typing',
+      content: '> gsap.timeline({ defaults: { ease: "power2.out" } })\n  .from(".card", { y: 40, opacity: 0, stagger: 0.08 })\n  .to(".cta", { scale: 1.06, repeat: -1, yoyo: true })\n\n✓ 60 FPS stabili su desktop\n✓ Animazioni adattive su mobile',
     })
   }, [openModal])
 
@@ -89,7 +100,16 @@ function Scene() {
       <FadeInGroup visible={currentChapter >= 4}>
         <SecondMonitor materiality={materiality} position={[0.75, 0.79, -0.4]} rotation={[0, -0.25, 0]} />
         <Headphones materiality={materiality} position={[-0.5, 0.88, 0.35]} rotation={[0.1, 0.4, 0]} />
-        <DeskPlant materiality={materiality} position={[1.05, 0.79, 0.3]} />
+        <DeskPlant materiality={materiality} lively={currentChapter === 7} position={[1.05, 0.79, 0.3]} />
+      </FadeInGroup>
+
+      {/* Ch.05+ object — badge stays from first job onward */}
+      <FadeInGroup visible={currentChapter >= 5}>
+        <IDBadge
+          materiality={materiality}
+          position={[-0.18, 0.803, 0.42]}
+          rotation={[0, 0.2, 0.06]}
+        />
       </FadeInGroup>
 
       {/* Ch.05 only objects — disappear at Ch.06 */}
@@ -104,6 +124,18 @@ function Scene() {
       <FadeInGroup visible={currentChapter === 6}>
         <AIHologram position={[0, 1.5, 0]} />
         <AIPromptPanel position={[0, 1.1, -0.35]} />
+      </FadeInGroup>
+
+      {/* Ch.07 only — lively animation chapter */}
+      <FadeInGroup visible={currentChapter === 7}>
+        <AnimationLoopPanel
+          position={[0, 1.3, -0.35]}
+          onClick={handleAnimationPanelClick}
+        />
+        <ColorParticles
+          position={[0.18, 1.2, -0.12]}
+        />
+        <MugSteam position={[0.85, 0.92, 0.15]} />
       </FadeInGroup>
     </>
   )

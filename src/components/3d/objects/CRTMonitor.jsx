@@ -35,14 +35,21 @@ export default function CRTMonitor({ materiality = 0, accentColor = '#6366f1', o
       {/* Screen — clickable, respects fade */}
       <mesh
         position={[0, 0.3, 0.251]}
-        onClick={onClick}
+        onClick={(e) => {
+          e.stopPropagation()
+          onClick?.(e)
+        }}
+        onPointerDown={(e) => {
+          e.stopPropagation()
+          onClick?.(e)
+        }}
         onPointerOver={() => { document.body.style.cursor = 'pointer' }}
-        onPointerOut={() => { document.body.style.cursor = 'default' }}
+        onPointerOut={() => { document.body.style.cursor = 'auto' }}
       >
         <planeGeometry args={[0.55, 0.4]} />
         <meshBasicMaterial
           ref={screenRef}
-          color="#0a0a0f"
+          color="#212131"
           transparent
           opacity={1}
         />

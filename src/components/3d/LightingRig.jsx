@@ -10,28 +10,49 @@ export default function LightingRig() {
   const dirRef = useRef()
   const accentRef = useRef()
   const fillRef = useRef()
+  const hemiRef = useRef()
 
-  useFrame(() => {
-    const { materiality } = useScrollStore.getState()
+  useFrame(({ clock }) => {
+    const { materiality, currentChapter } = useScrollStore.getState()
+    const t = clock.getElapsedTime()
+    const isAnimationChapter = currentChapter === 7
 
     // Ambient: brighter as materiality increases
     if (ambientRef.current) {
-      ambientRef.current.intensity = THREE.MathUtils.lerp(0.4, 1.0, materiality)
+      const base = THREE.MathUtils.lerp(0.4, 1.0, materiality)
+      ambientRef.current.intensity = base + (isAnimationChapter ? 0.12 : 0)
     }
 
     // Directional (key light): stronger with more solid objects
     if (dirRef.current) {
-      dirRef.current.intensity = THREE.MathUtils.lerp(0.6, 1.5, materiality)
+      const base = THREE.MathUtils.lerp(0.6, 1.5, materiality)
+      dirRef.current.intensity = base + (isAnimationChapter ? 0.18 : 0)
     }
 
     // Accent point light: stronger in wireframe mode (glow effect)
     if (accentRef.current) {
-      accentRef.current.intensity = THREE.MathUtils.lerp(1.5, 0.5, materiality)
+      const base = THREE.MathUtils.lerp(1.5, 0.5, materiality)
+      const pulse = isAnimationChapter ? 0.35 + (Math.sin(t * 3.2) + 1) * 0.18 : 0
+      accentRef.current.intensity = base + pulse
+
+      if (isAnimationChapter) {
+        accentRef.current.color.setHSL(0.68 + Math.sin(t * 0.8) * 0.06, 0.85, 0.58)
+      } else {
+        accentRef.current.color.set('#6366f1')
+      }
     }
 
     // Fill light from opposite side: grows with materiality
     if (fillRef.current) {
-      fillRef.current.intensity = THREE.MathUtils.lerp(0.1, 0.6, materiality)
+      const base = THREE.MathUtils.lerp(0.1, 0.6, materiality)
+      fillRef.current.intensity = base + (isAnimationChapter ? 0.12 : 0)
+    }
+
+    // Hemisphere accent for chapter mood
+    if (hemiRef.current) {
+      const base = 0.3
+      const pulse = isAnimationChapter ? (Math.sin(t * 1.8) + 1) * 0.06 : 0
+      hemiRef.current.intensity = base + pulse
     }
   })
 
@@ -67,6 +88,7 @@ export default function LightingRig() {
 
       {/* Hemisphere light — subtle sky/ground gradient for depth */}
       <hemisphereLight
+        ref={hemiRef}
         args={['#1e1e3a', '#0a0a0f', 0.3]}
       />
     </>
