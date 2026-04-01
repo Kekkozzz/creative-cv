@@ -65,7 +65,7 @@ export const chapters = [
     narrativeContent: {
       number: '03',
       heading: 'Backend',
-      text: "PHP non era sexy come JavaScript. Laravel sembrava enorme. Ma ho capito che costruire le fondamenta solide era essenziale. Ogni Model, ogni Controller, ogni Migration era un mattone del mio futuro.",
+      text: "PHP non era bello come JavaScript. Laravel sembrava enorme. Ma ho capito che costruire le fondamenta solide era essenziale. Ogni Model, ogni Controller, ogni Migration era un mattone del mio futuro.",
     },
   },
   {
@@ -96,6 +96,21 @@ export const chapters = [
       number: '05',
       heading: 'Il Primo Lavoro',
       text: "Il primo giorno di lavoro. Impostor syndrome a mille. Poi il primo task completato, il primo 'ottimo lavoro' dal team leader, la prima feature in produzione. Stavo davvero diventando un developer.",
+    },
+  },
+  {
+    id: 6,
+    title: 'AI',
+    subtitle: 'Non magia, solo strumenti',
+    materiality: 0.75,
+    objects: ['desk', 'flatMonitor', 'secondMonitor', 'chair', 'mug', 'keyboard', 'headphones', 'plant', 'badge', 'hologram', 'promptPanel'],
+    clickables: [],
+    bloomIntensity: 0.6,
+    narrativePosition: 'right',
+    narrativeContent: {
+      number: '06',
+      heading: "L'AI",
+      text: "Quando è arrivata l'AI, molti avevano paura. Io ho visto un'opportunità. Copilot, ChatGPT, Claude... Sono diventati parte del mio workflow, moltiplicando la mia produttività.",
     },
   },
 ]

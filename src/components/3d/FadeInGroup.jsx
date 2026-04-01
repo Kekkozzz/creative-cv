@@ -4,15 +4,15 @@ import { useRef, createContext, useContext } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
-const FadeContext = createContext(1)
+const FadeContext = createContext(null)
+const FALLBACK_FADE_REF = { current: 1 }
 
 /**
  * Read the current fade multiplier (0–1) from the nearest FadeInGroup.
- * Returns 1 if no FadeInGroup parent exists.
+ * Returns a stable ref with current=1 if no FadeInGroup parent exists.
  */
 export function useFade() {
-  const ref = useContext(FadeContext)
-  return ref?.current ?? 1
+  return useContext(FadeContext) ?? FALLBACK_FADE_REF
 }
 
 /**

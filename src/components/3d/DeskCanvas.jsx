@@ -22,6 +22,8 @@ import Headphones from './objects/Headphones'
 import DeskPlant from './objects/DeskPlant'
 import PostItWall from './objects/PostItWall'
 import GitGraph from './objects/GitGraph'
+import AIHologram from './objects/AIHologram'
+import AIPromptPanel from './objects/AIPromptPanel'
 import FadeInGroup from './FadeInGroup'
 import useScrollStore from '@/stores/scrollStore'
 
@@ -96,6 +98,12 @@ function Scene() {
         <PostItWall materiality={materiality} position={[0, 1.1, -0.32]} />
         {/* Git stats panel from second monitor — same angle as SecondMonitor */}
         <GitGraph position={[0.74, 1.08, -0.38]} rotation={[0, -0.25, 0]} />
+      </FadeInGroup>
+
+      {/* Ch.06 only — AI hologram floating above desk + prompt panel from main monitor */}
+      <FadeInGroup visible={currentChapter === 6}>
+        <AIHologram position={[0, 1.5, 0]} />
+        <AIPromptPanel position={[0, 1.1, -0.35]} />
       </FadeInGroup>
     </>
   )
