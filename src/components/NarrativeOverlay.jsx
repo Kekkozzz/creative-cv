@@ -21,12 +21,12 @@ export default function NarrativeOverlay() {
             subtitle={ch.narrativeContent.text}
           />
           {/* Scroll space for chapter content + transition */}
-          <div style={{ height: '150vh' }} />
+          <div style={{ height: '300vh' }} />
         </div>
       ))}
 
       {/* End spacer */}
-      <div style={{ height: '100vh' }} />
+      <div style={{ height: '200vh' }} />
     </div>
   )
 }
