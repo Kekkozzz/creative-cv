@@ -33,4 +33,22 @@ export const chapters = [
       text: "Ricordo ancora quel primo 'Hello World'. Le mani sulla tastiera, incerte. Non sapevo che quelle poche righe di codice avrebbero cambiato la mia vita. Era l'inizio di tutto.",
     },
   },
+  {
+    id: 2,
+    title: 'AULAB',
+    subtitle: 'Dove tutto è iniziato davvero',
+    materiality: 0.25,
+    objects: ['desk', 'flatMonitor', 'chair', 'mug', 'notepad', 'sheets', 'keyboard', 'books', 'clock'],
+    clickables: [
+      { id: 'books', action: 'typing', content: 'HTML/CSS → JavaScript → PHP → Laravel\nMySQL → Git → Bootstrap → jQuery' },
+      { id: 'clock', action: 'typing', content: '⏱ 847 ore di pratica\n📅 6 mesi intensivi\n💻 12 progetti completati' },
+    ],
+    bloomIntensity: 1.2,
+    narrativePosition: 'right',
+    narrativeContent: {
+      number: '02',
+      heading: 'Aulab',
+      text: "Aulab non era solo un corso online. Erano notti insonni, bug frustranti, ma anche quella sensazione incredibile quando finalmente il codice funzionava. Ho trovato mentori, compagni di viaggio, e soprattutto, ho trovato me stesso.",
+    },
+  },
 ]

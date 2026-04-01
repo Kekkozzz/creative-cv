@@ -12,6 +12,10 @@ import DeskChair from './objects/DeskChair'
 import CoffeeMug from './objects/CoffeeMug'
 import Notepad from './objects/Notepad'
 import PaperSheets from './objects/PaperSheets'
+import Keyboard from './objects/Keyboard'
+import BookStack from './objects/BookStack'
+import FlatMonitor from './objects/FlatMonitor'
+import DeskClock from './objects/DeskClock'
 import FadeInGroup from './FadeInGroup'
 import useScrollStore from '@/stores/scrollStore'
 
@@ -51,22 +55,34 @@ function Scene() {
 
       {/* Desk — always present */}
       <DeskBase materiality={materiality} />
-      <CRTMonitor
-        materiality={materiality}
-        position={[0, 0.84, -0.3]}
-        onClick={handleCRTClick}
-      />
       <DeskChair
         materiality={materiality}
         position={[0, 0, 1.2]}
         rotation={[0, Math.PI, 0]}
       />
 
+      {/* CRT — visible Ch.00-01, fades out at Ch.02 (replaced by flat monitor) */}
+      <FadeInGroup visible={currentChapter < 2}>
+        <CRTMonitor
+          materiality={materiality}
+          position={[0, 0.84, -0.3]}
+          onClick={handleCRTClick}
+        />
+      </FadeInGroup>
+
       {/* Ch.01+ objects — fade in smoothly */}
       <FadeInGroup visible={currentChapter >= 1}>
         <CoffeeMug materiality={materiality} position={[0.85, 0.8, 0.15]} />
         <Notepad materiality={materiality} position={[-0.7, 0.795, 0.2]} rotation={[0, 0.2, 0]} />
         <PaperSheets materiality={materiality} position={[0.5, 0.795, 0.3]} />
+      </FadeInGroup>
+
+      {/* Ch.02+ objects — flat monitor replaces CRT, keyboard, books, clock */}
+      <FadeInGroup visible={currentChapter >= 2}>
+        <FlatMonitor materiality={materiality} position={[0, 0.79, -0.35]} />
+        <Keyboard materiality={materiality} position={[0, 0.795, 0.15]} />
+        <BookStack materiality={materiality} position={[-0.95, 0.79, -0.2]} />
+        <DeskClock materiality={materiality} position={[0.95, 0.79, -0.25]} rotation={[0, -0.3, 0]} />
       </FadeInGroup>
     </>
   )

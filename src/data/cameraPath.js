@@ -13,6 +13,13 @@ export const cameraKeyframes = [
     target: [0, 0.8, -0.2],
     fov: 48,
   },
+  {
+    chapter: 2,
+    scrollRange: [0.25, 0.36],
+    position: [0.5, 2.2, 4],
+    target: [0, 0.7, 0],
+    fov: 52,
+  },
 ]
 
 /**
