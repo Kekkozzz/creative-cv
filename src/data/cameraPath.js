@@ -15,10 +15,17 @@ export const cameraKeyframes = [
   },
   {
     chapter: 2,
-    scrollRange: [0.55, 0.82],
+    scrollRange: [0.55, 0.72],
     position: [0.5, 2.2, 4],
     target: [0, 0.7, 0],
     fov: 52,
+  },
+  {
+    chapter: 3,
+    scrollRange: [0.72, 0.90],
+    position: [1, 1.6, 3.8],
+    target: [-0.2, 0.7, -0.3],
+    fov: 50,
   },
 ]
 

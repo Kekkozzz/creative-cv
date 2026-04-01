@@ -20,12 +20,6 @@ export default function FlatMonitor({ materiality = 0, accentColor = '#6366f1', 
         pbrProps={{ color: '#1e1e2e', roughness: 0.3, metalness: 0.4 }}
       />
 
-      {/* Screen surface */}
-      <mesh position={[0, 0.325, 0.016]}>
-        <planeGeometry args={[0.68, 0.4]} />
-        <meshBasicMaterial color="#0a0a0f" />
-      </mesh>
-
       {/* Stand neck */}
       <MorphableObject
         geometry={standGeo}

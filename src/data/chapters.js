@@ -51,4 +51,21 @@ export const chapters = [
       text: "Aulab non era solo un corso online. Erano notti insonni, bug frustranti, ma anche quella sensazione incredibile quando finalmente il codice funzionava. Ho trovato mentori, compagni di viaggio, e soprattutto, ho trovato me stesso.",
     },
   },
+  {
+    id: 3,
+    title: 'BACKEND',
+    subtitle: 'La fatica del backend',
+    materiality: 0.4,
+    objects: ['desk', 'flatMonitor', 'chair', 'mug', 'keyboard', 'books', 'serverRack', 'schema'],
+    clickables: [
+      { id: 'serverRack', action: 'typing', content: 'php artisan migrate\nphp artisan make:model User -mcr\nphp artisan serve\n\n✓ Server running on http://127.0.0.1:8000' },
+    ],
+    bloomIntensity: 1.0,
+    narrativePosition: 'left',
+    narrativeContent: {
+      number: '03',
+      heading: 'Backend',
+      text: "PHP non era sexy come JavaScript. Laravel sembrava enorme. Ma ho capito che costruire le fondamenta solide era essenziale. Ogni Model, ogni Controller, ogni Migration era un mattone del mio futuro.",
+    },
+  },
 ]

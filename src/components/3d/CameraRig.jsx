@@ -27,20 +27,28 @@ export default function CameraRig() {
     return () => canvas.removeEventListener('mousemove', handleMouseMove)
   }, [gl])
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
     if (!cameraRef.current) return
 
-    const progress = useScrollStore.getState().scrollProgress
-    const { position, target, fov } = interpolateCamera(progress)
+    const { scrollProgress, currentChapter } = useScrollStore.getState()
+    const { position, target, fov } = interpolateCamera(scrollProgress)
 
     // Mouse parallax offset (subtle)
     const parallaxX = mouse.current.x * 0.15
     const parallaxY = mouse.current.y * 0.1
 
+    // Camera shake for Ch.03 (backend struggle) — subtle
+    let shakeX = 0, shakeY = 0
+    if (currentChapter === 3) {
+      const t = clock.getElapsedTime()
+      shakeX = Math.sin(t * 13) * 0.004 + Math.sin(t * 19) * 0.003
+      shakeY = Math.cos(t * 17) * 0.003 + Math.cos(t * 23) * 0.002
+    }
+
     // Smooth interpolation toward target position
     _vec3Position.set(
-      position[0] + parallaxX,
-      position[1] + parallaxY,
+      position[0] + parallaxX + shakeX,
+      position[1] + parallaxY + shakeY,
       position[2]
     )
     cameraRef.current.position.lerp(_vec3Position, 0.05)
