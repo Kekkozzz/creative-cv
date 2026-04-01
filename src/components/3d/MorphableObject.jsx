@@ -12,6 +12,8 @@ export default function MorphableObject({
   materiality = 0,
   accentColor = '#6366f1',
   pbrProps = {},
+  castShadow: castShadowProp = true,
+  receiveShadow: receiveShadowProp = true,
   children,
   ...rest
 }) {
@@ -76,7 +78,7 @@ export default function MorphableObject({
       </mesh>
 
       {/* Solid PBR layer */}
-      <mesh geometry={geometry} castShadow receiveShadow>
+      <mesh geometry={geometry} castShadow={castShadowProp} receiveShadow={receiveShadowProp}>
         <meshStandardMaterial
           ref={solidMatRef}
           color="#e4e4e7"

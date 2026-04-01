@@ -83,4 +83,19 @@ export const chapters = [
       text: "C'è stato un momento preciso. Stavo costruendo il mio primo componente React e ho capito: 'Ecco cosa voglio fare'. Non era più solo codice, era creare esperienze.",
     },
   },
+  {
+    id: 5,
+    title: 'PRIMO LAVORO',
+    subtitle: 'La realtà',
+    materiality: 0.6,
+    objects: ['desk', 'flatMonitor', 'secondMonitor', 'chair', 'mug', 'keyboard', 'headphones', 'plant', 'postIts', 'badge', 'gitGraph'],
+    clickables: [],
+    bloomIntensity: 0.7,
+    narrativePosition: 'left',
+    narrativeContent: {
+      number: '05',
+      heading: 'Il Primo Lavoro',
+      text: "Il primo giorno di lavoro. Impostor syndrome a mille. Poi il primo task completato, il primo 'ottimo lavoro' dal team leader, la prima feature in produzione. Stavo davvero diventando un developer.",
+    },
+  },
 ]

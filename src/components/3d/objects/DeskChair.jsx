@@ -8,6 +8,7 @@ export default function DeskChair({ materiality = 0, accentColor = '#6366f1', ..
   const seatGeo = useMemo(() => new THREE.BoxGeometry(0.5, 0.06, 0.5), [])
   const backGeo = useMemo(() => new THREE.BoxGeometry(0.5, 0.5, 0.06), [])
   const legGeo = useMemo(() => new THREE.CylinderGeometry(0.02, 0.02, 0.45, 6), [])
+  const baseGeo = useMemo(() => new THREE.BoxGeometry(0.45, 0.03, 0.45), [])
 
   return (
     <group {...rest}>
@@ -35,6 +36,15 @@ export default function DeskChair({ materiality = 0, accentColor = '#6366f1', ..
         materiality={materiality}
         accentColor={accentColor}
         position={[0, 0.225, 0]}
+        pbrProps={{ color: '#16161d', metalness: 0.3 }}
+      />
+
+      {/* Base */}
+      <MorphableObject
+        geometry={baseGeo}
+        materiality={materiality}
+        accentColor={accentColor}
+        position={[0, 0.015, 0]}
         pbrProps={{ color: '#16161d', metalness: 0.3 }}
       />
     </group>

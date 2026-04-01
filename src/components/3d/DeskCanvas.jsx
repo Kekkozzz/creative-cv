@@ -20,6 +20,8 @@ import FloatingTerminal from './objects/FloatingTerminal'
 import SecondMonitor from './objects/SecondMonitor'
 import Headphones from './objects/Headphones'
 import DeskPlant from './objects/DeskPlant'
+import PostItWall from './objects/PostItWall'
+import GitGraph from './objects/GitGraph'
 import FadeInGroup from './FadeInGroup'
 import useScrollStore from '@/stores/scrollStore'
 
@@ -75,7 +77,7 @@ function Scene() {
 
       {/* Ch.03+ objects — server rack persists, terminal only on Ch.03 */}
       <FadeInGroup visible={currentChapter >= 3}>
-        <ServerRack materiality={materiality} position={[1.8, 0, -0.3]} />
+        <ServerRack materiality={materiality} position={[0.9, 0, 0.1]} scale={1.3} />
       </FadeInGroup>
       <FadeInGroup visible={currentChapter === 3}>
         <FloatingTerminal position={[0, 1.1, -0.32]} />
@@ -86,6 +88,14 @@ function Scene() {
         <SecondMonitor materiality={materiality} position={[0.75, 0.79, -0.4]} rotation={[0, -0.25, 0]} />
         <Headphones materiality={materiality} position={[-0.5, 0.88, 0.35]} rotation={[0.1, 0.4, 0]} />
         <DeskPlant materiality={materiality} position={[1.05, 0.79, 0.3]} />
+      </FadeInGroup>
+
+      {/* Ch.05 only objects — disappear at Ch.06 */}
+      <FadeInGroup visible={currentChapter === 5}>
+        {/* Post-its floating out of the main monitor screen area */}
+        <PostItWall materiality={materiality} position={[0, 1.1, -0.32]} />
+        {/* Git stats panel from second monitor — same angle as SecondMonitor */}
+        <GitGraph position={[0.74, 1.08, -0.38]} rotation={[0, -0.25, 0]} />
       </FadeInGroup>
     </>
   )

@@ -47,7 +47,7 @@ ________________
 
 
 SEZIONE 5: "IL PRIMO LAVORO: LA REALTÀ"
-Testo narrativo: "Il primo giorno di lavoro. Impostor syndrome a mille. Poi il primo task completato, il primo 'ottimo lavoro' dal senior, la prima feature in produzione. Stavo davvero diventando un developer."
+Testo narrativo: "Il primo giorno di lavoro. Impostor syndrome a mille. Poi il primo task completato, il primo 'ottimo lavoro' dal team leader, la prima feature in produzione. Stavo davvero diventando un developer."
 Animazioni/Elementi:
 * Chat/Google Workspace messages: Conversazioni reali (anonimizzate) dal lavoro
 * Commit history: Grafico contributi Git che si riempie nel tempo
