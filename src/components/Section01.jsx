@@ -239,7 +239,7 @@ export default function Section01() {
                   className="font-mono text-4xl font-bold gradient-text"
                   style={{ letterSpacing: '-0.02em' }}
                 >
-                  900
+                  2000
                 </div>
                 <div
                   className="font-body text-sm uppercase tracking-wider"

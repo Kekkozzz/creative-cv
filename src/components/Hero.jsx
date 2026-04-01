@@ -23,27 +23,22 @@ export default function Hero() {
           const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
           // Staggered entrance animations
-          tl.from(numberRef.current, {
-            opacity: 0,
-            x: -50,
-            duration: 1,
-            delay: 0.3,
-          })
-          .from(titleRef.current, {
-            opacity: 0,
-            y: 30,
-            duration: 1,
-          }, '-=0.6')
-          .from(textRef.current, {
-            opacity: 0,
-            y: 20,
-            duration: 1,
-          }, '-=0.6')
-          .from(imageRef.current, {
-            opacity: 0,
-            scale: 1.05,
-            duration: 1.2,
-          }, '-=0.8');
+          tl.fromTo(numberRef.current,
+            { opacity: 0, x: -50 },
+            { opacity: 1, x: 0, duration: 1, delay: 0.3 }
+          )
+          .fromTo(titleRef.current,
+            { opacity: 0, y: 30 },
+            { opacity: 1, y: 0, duration: 1 },
+            '-=0.6')
+          .fromTo(textRef.current,
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 1 },
+            '-=0.6')
+          .fromTo(imageRef.current,
+            { opacity: 0, scale: 1.05 },
+            { opacity: 1, scale: 1, duration: 1.2 },
+            '-=0.8');
         }, heroRef);
 
         return () => ctx.revert();
@@ -73,6 +68,7 @@ export default function Hero() {
               style={{
                 fontSize: 'clamp(10rem, 16vw, 18rem)',
                 letterSpacing: '-0.05em',
+                opacity: 0,
               }}
             >
               00
@@ -101,7 +97,7 @@ export default function Hero() {
           <div className="lg:ml-48 xl:ml-64 max-w-xl">
 
             {/* Title "Hello" with underline */}
-            <div ref={titleRef} className="mb-8">
+            <div ref={titleRef} className="mb-8" style={{ opacity: 0 }}>
               <h1
                 className="font-heading font-bold mb-4 text-white leading-none tracking-tight"
                 style={{
@@ -115,14 +111,14 @@ export default function Hero() {
             </div>
 
             {/* Bio Text */}
-            <div ref={textRef} className="space-y-6">
+            <div ref={textRef} className="space-y-6" style={{ opacity: 0 }}>
               <p className="font-body text-lg leading-relaxed text-gray-300">
                 Mi chiamo <strong className="font-semibold text-white">Francesco Romito</strong>,
                 e sono un Creative Developer appassionato di storytelling digitale.
               </p>
               <p className="font-body text-base leading-relaxed text-gray-400">
                 Con passione, creatività ed entusiasmo, costruisco esperienze digitali che raccontano storie.
-                Da zero righe di codice a 900+ commit, ogni progetto è un capitolo della mia evoluzione.
+                Da zero righe di codice a 2000+ commit, ogni progetto è un capitolo della mia evoluzione.
               </p>
 
               {/* Scroll CTA */}
@@ -164,6 +160,7 @@ export default function Hero() {
           style={{
             width: 'clamp(600px, 60vw, 1200px)',
             height: 'clamp(700px, 100vh, 909px)',
+            opacity: 0,
           }}
         >
           <Image
