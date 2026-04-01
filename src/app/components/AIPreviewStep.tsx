@@ -205,7 +205,7 @@ export default function AIPreviewStep({
     const clientTimeout = setTimeout(() => controller.abort(), 200_000);
 
     try {
-      const imgRes = await fetch("/api/generate-preview/image", {
+      const imgRes = await fetch("/services/api/generate-preview/image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),

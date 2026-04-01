@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div>
             <Link
-              href="/"
+              href="/services"
               className="font-display text-lg text-foreground hover:text-accent transition-colors"
             >
               {siteConfig.companyName}

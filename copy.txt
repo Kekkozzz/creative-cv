@@ -49,7 +49,7 @@ ________________
 SEZIONE 5: "IL PRIMO LAVORO: LA REALTÀ"
 Testo narrativo: "Il primo giorno di lavoro. Impostor syndrome a mille. Poi il primo task completato, il primo 'ottimo lavoro' dal senior, la prima feature in produzione. Stavo davvero diventando un developer."
 Animazioni/Elementi:
-* Chat/Slack messages: Conversazioni reali (anonimizzate) dal lavoro
+* Chat/Google Workspace messages: Conversazioni reali (anonimizzate) dal lavoro
 * Commit history: Grafico contributi Git che si riempie nel tempo
 * Task board: Card che si spostano da "To Do" a "Done"
 * Foto team/ufficio: Gallery minimalista con momenti reali
@@ -102,7 +102,7 @@ ________________
 
 
 SEZIONE 10: "OGGI, E DOMANI"
-Testo narrativo: "Non sono un ninja, né un guru. Sono uno sviluppatore che ogni giorno impara qualcosa di nuovo. Che a volte cerca su Stack Overflow, che debugga per ore, che celebra quando trova la soluzione. E sono pronto per la prossima sfida."
+Testo narrativo: "Non sono un ninja, né un guru. Sono uno sviluppatore che ogni giorno impara qualcosa di nuovo. Che a volte cerca sui forums, che testa nuovi approcci per ore, che celebra quando trova la soluzione. E sono pronto per la prossima sfida."
 Animazioni/Elementi:
 * Current stack: Tecnologie attuali con livello di competenza onesto
 * Learning roadmap: Cosa stai studiando ora

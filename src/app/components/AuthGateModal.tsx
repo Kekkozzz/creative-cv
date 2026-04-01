@@ -73,7 +73,7 @@ export default function AuthGateModal({
       password,
       options: {
         data: { full_name: fullName },
-        emailRedirectTo: `${window.location.origin}/api/auth/callback?next=${encodeURIComponent("/?restore=wizard#pricing")}`,
+        emailRedirectTo: `${window.location.origin}/services/api/auth/callback?next=${encodeURIComponent("/services?restore=wizard#pricing")}`,
       },
     });
 
@@ -94,7 +94,7 @@ export default function AuthGateModal({
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/api/auth/callback?next=${encodeURIComponent("/?restore=wizard#pricing")}`,
+        redirectTo: `${window.location.origin}/services/api/auth/callback?next=${encodeURIComponent("/services?restore=wizard#pricing")}`,
       },
     });
   };

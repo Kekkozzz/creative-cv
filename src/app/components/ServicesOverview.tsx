@@ -79,7 +79,7 @@ function ServiceCard({
   return (
     <a
       ref={cardRef}
-      href={'/servizi/' + cat.id}
+      href={'/services/' + cat.id}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className="group relative border border-border bg-surface/30 p-8 md:p-10 hover:border-accent/30 hover:bg-surface/60 transition-all duration-500"

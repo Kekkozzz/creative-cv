@@ -24,10 +24,10 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const serviziLinks = [
-    { label: "Siti Web", href: "/servizi/siti-web" },
-    { label: "Shop & SaaS", href: "/servizi/shop-saas" },
-    { label: "Web App", href: "/servizi/web-app" },
-    { label: "Mobile App", href: "/servizi/mobile-app" },
+    { label: "Siti Web", href: "/services/siti-web" },
+    { label: "Shop & SaaS", href: "/services/shop-saas" },
+    { label: "Web App", href: "/services/web-app" },
+    { label: "Mobile App", href: "/services/mobile-app" },
   ];
 
   // Check auth state
@@ -329,7 +329,7 @@ export default function Navbar() {
       >
         <div className="mx-auto max-w-7xl flex items-center justify-between px-8 h-16">
           <Link
-            href="/"
+            href="/services"
             className="font-display text-lg tracking-tight text-foreground hover:text-accent transition-colors whitespace-nowrap"
           >
             {siteConfig.companyName}
@@ -350,7 +350,7 @@ export default function Navbar() {
                     href={link.href}
                     onClick={handleNavClick}
                     className={`text-xs uppercase tracking-[0.2em] transition-colors duration-300 ${
-                      pathname?.startsWith("/servizi")
+                      pathname?.startsWith("/services")
                         ? "text-accent"
                         : "text-muted hover:text-foreground"
                     }`}
@@ -393,7 +393,7 @@ export default function Navbar() {
               )
             )}
             <a
-              href={isLoggedIn ? "/dashboard" : "/login"}
+              href={isLoggedIn ? "/services/dashboard" : "/services/login"}
               className="text-xs uppercase tracking-[0.2em] text-accent hover:text-foreground transition-colors duration-300"
             >
               {isLoggedIn ? "Dashboard" : "Accedi"}
@@ -435,7 +435,7 @@ export default function Navbar() {
                   <button
                     onClick={() => setServiziMobileOpen((v) => !v)}
                     className={`text-xs uppercase tracking-[0.2em] text-left transition-colors ${
-                      pathname?.startsWith("/servizi") || serviziMobileOpen
+                      pathname?.startsWith("/services") || serviziMobileOpen
                         ? "text-accent"
                         : "text-muted hover:text-foreground"
                     }`}
@@ -473,7 +473,7 @@ export default function Navbar() {
               )
             )}
             <a
-              href={isLoggedIn ? "/dashboard" : "/login"}
+              href={isLoggedIn ? "/services/dashboard" : "/services/login"}
               className="text-xs uppercase tracking-[0.2em] text-accent hover:text-foreground transition-colors"
             >
               {isLoggedIn ? "Dashboard" : "Accedi"}

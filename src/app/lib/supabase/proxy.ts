@@ -33,15 +33,15 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Protect /dashboard and /admin routes — redirect to login if not authenticated
-  if (!user && (request.nextUrl.pathname.startsWith("/dashboard") || request.nextUrl.pathname.startsWith("/admin"))) {
+  // Protect /services/dashboard and /services/admin routes — redirect to login if not authenticated
+  if (!user && (request.nextUrl.pathname.startsWith("/services/dashboard") || request.nextUrl.pathname.startsWith("/services/admin"))) {
     const url = request.nextUrl.clone();
-    url.pathname = "/login";
+    url.pathname = "/services/login";
     return NextResponse.redirect(url);
   }
 
-  // Protect /admin routes — check admin role
-  if (user && request.nextUrl.pathname.startsWith("/admin")) {
+  // Protect /services/admin routes — check admin role
+  if (user && request.nextUrl.pathname.startsWith("/services/admin")) {
     const { data: profile } = await supabase
       .from("profiles")
       .select("role")
@@ -50,15 +50,15 @@ export async function updateSession(request: NextRequest) {
 
     if (!profile || profile.role !== "admin") {
       const url = request.nextUrl.clone();
-      url.pathname = "/dashboard";
+      url.pathname = "/services/dashboard";
       return NextResponse.redirect(url);
     }
   }
 
   // Redirect authenticated users away from auth pages
-  if (user && (request.nextUrl.pathname === "/login" || request.nextUrl.pathname === "/register")) {
+  if (user && (request.nextUrl.pathname === "/services/login" || request.nextUrl.pathname === "/services/register")) {
     const url = request.nextUrl.clone();
-    url.pathname = "/dashboard";
+    url.pathname = "/services/dashboard";
     return NextResponse.redirect(url);
   }
 

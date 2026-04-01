@@ -15,7 +15,7 @@ export async function requireAdmin(): Promise<User> {
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/login");
+    redirect("/services/login");
   }
 
   const { data: profile } = await supabase
@@ -25,7 +25,7 @@ export async function requireAdmin(): Promise<User> {
     .single();
 
   if (!profile || profile.role !== "admin") {
-    redirect("/dashboard");
+    redirect("/services/dashboard");
   }
 
   return user;
