@@ -29,16 +29,29 @@ export default function MorphableObject({
 
   return (
     <group {...rest}>
-      {/* Wireframe layer */}
+      {/* Wireframe layer — using MeshBasicMaterial on a mesh with wireframe
+          for better glow effect since postprocessing Bloom is unavailable */}
       {wireOpacity > 0.01 && (
-        <lineSegments geometry={edges}>
-          <lineBasicMaterial
-            color={accentColor}
-            transparent
-            opacity={wireOpacity}
-            depthWrite={false}
-          />
-        </lineSegments>
+        <>
+          <lineSegments geometry={edges}>
+            <lineBasicMaterial
+              color={accentColor}
+              transparent
+              opacity={wireOpacity}
+              depthWrite={false}
+            />
+          </lineSegments>
+          {/* Faint emissive fill for glow-like effect */}
+          <mesh geometry={geometry}>
+            <meshBasicMaterial
+              color={accentColor}
+              transparent
+              opacity={wireOpacity * 0.06}
+              depthWrite={false}
+              side={THREE.FrontSide}
+            />
+          </mesh>
+        </>
       )}
 
       {/* Solid PBR layer */}

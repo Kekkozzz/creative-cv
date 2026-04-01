@@ -7,7 +7,6 @@ import * as THREE from 'three'
 import CameraRig from './CameraRig'
 import LightingRig from './LightingRig'
 import DeskBase from './DeskBase'
-import PostProcessingStack from './PostProcessingStack'
 import CRTMonitor from './objects/CRTMonitor'
 import DeskChair from './objects/DeskChair'
 import useScrollStore from '@/stores/scrollStore'
@@ -48,10 +47,14 @@ function Scene() {
         position={[0, 0, 0.9]}
         rotation={[0, Math.PI, 0]}
       />
-
-      <PostProcessingStack />
     </>
   )
+}
+
+function handleCreated({ gl }) {
+  gl.toneMapping = THREE.ACESFilmicToneMapping
+  gl.toneMappingExposure = 1.2
+  gl.outputColorSpace = THREE.SRGBColorSpace
 }
 
 export default function DeskCanvas() {
@@ -68,12 +71,9 @@ export default function DeskCanvas() {
     >
       <Canvas
         dpr={[1, 2]}
-        gl={{
-          antialias: true,
-          toneMapping: THREE.ACESFilmicToneMapping,
-          outputColorSpace: THREE.SRGBColorSpace,
-        }}
+        gl={{ antialias: true }}
         shadows
+        onCreated={handleCreated}
       >
         <color attach="background" args={['#0a0a0f']} />
         <fog attach="fog" args={['#0a0a0f', 15, 30]} />
