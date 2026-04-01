@@ -1,0 +1,122 @@
+<h2>3 Approcci per il CV 3D</h2>
+<p class="subtitle">Ogni approccio realizza la tua visione (scrivania che evolve, wireframe→solido, scroll+hover+click) con diversi trade-off tecnici</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>🎬 "Scena Continua" — Una sola canvas Three.js (Consigliato)</h3>
+      <p style="margin-bottom: 12px;">Un'unica scena 3D persistente che occupa tutto il viewport. La scrivania è sempre presente e si <strong>trasforma progressivamente</strong> con lo scroll. Gli oggetti morphano da wireframe a solido. Il testo narrativo appare in pannelli overlay con backdrop-blur.</p>
+
+      <div style="background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.3); border-radius: 8px; padding: 16px; margin: 12px 0;">
+        <strong style="color: #6366f1;">Come funziona:</strong>
+        <ul style="margin: 8px 0 0; padding-left: 20px; font-size: 14px;">
+          <li>ScrollTrigger controlla la timeline GSAP globale (progress 0→1)</li>
+          <li>La camera si muove lungo un path predefinito (dolly shot cinematografico)</li>
+          <li>Ogni "capitolo" = un keyframe della scena (camera position + oggetti visibili + materialità)</li>
+          <li>Transizione wireframe→solido via mix di materiali (opacity morph)</li>
+          <li>Click sugli oggetti = modal/popup con dettagli</li>
+        </ul>
+      </div>
+
+      <div style="display: flex; gap: 16px; margin-top: 12px;">
+        <div style="flex:1;">
+          <div style="color: #10b981; font-weight: 600; font-size: 13px;">✓ PRO</div>
+          <ul style="font-size: 13px; padding-left: 16px; margin: 4px 0;">
+            <li>Transizioni fluide tra sezioni</li>
+            <li>Massimo impatto "wow"</li>
+            <li>Performance ottimale (1 canvas)</li>
+            <li>Camera path cinematografico</li>
+          </ul>
+        </div>
+        <div style="flex:1;">
+          <div style="color: #ef4444; font-weight: 600; font-size: 13px;">✗ CONTRO</div>
+          <ul style="font-size: 13px; padding-left: 16px; margin: 4px 0;">
+            <li>Più complesso da sviluppare</li>
+            <li>Tutti i modelli caricati insieme</li>
+            <li>Più difficile il debug per sezione</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>📐 "Sezioni Modulari" — Canvas separate per capitolo</h3>
+      <p style="margin-bottom: 12px;">Ogni capitolo ha la sua scena 3D indipendente. Quando scrolli in una sezione, la sua canvas si attiva. Tra le sezioni, transizioni 2D (fade, wipe). La scrivania è una "serie" di snapshot: ogni sezione mostra lo stato del desk in quel momento della storia.</p>
+
+      <div style="background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.3); border-radius: 8px; padding: 16px; margin: 12px 0;">
+        <strong style="color: #8b5cf6;">Come funziona:</strong>
+        <ul style="margin: 8px 0 0; padding-left: 20px; font-size: 14px;">
+          <li>Ogni sezione = componente React con la sua R3F Canvas</li>
+          <li>IntersectionObserver attiva/disattiva le canvas (performance)</li>
+          <li>Lazy loading: modelli caricati solo quando la sezione è vicina</li>
+          <li>Ogni scena ha il suo livello di wireframe→solido</li>
+          <li>Transizioni tra sezioni gestite con GSAP/CSS</li>
+        </ul>
+      </div>
+
+      <div style="display: flex; gap: 16px; margin-top: 12px;">
+        <div style="flex:1;">
+          <div style="color: #10b981; font-weight: 600; font-size: 13px;">✓ PRO</div>
+          <ul style="font-size: 13px; padding-left: 16px; margin: 4px 0;">
+            <li>Sviluppo modulare (1 sezione alla volta)</li>
+            <li>Lazy loading naturale</li>
+            <li>Facile debug/test</li>
+            <li>Ogni sezione indipendente</li>
+          </ul>
+        </div>
+        <div style="flex:1;">
+          <div style="color: #ef4444; font-weight: 600; font-size: 13px;">✗ CONTRO</div>
+          <ul style="font-size: 13px; padding-left: 16px; margin: 4px 0;">
+            <li>Transizioni meno fluide</li>
+            <li>Multiple canvas = rischio jank</li>
+            <li>Meno "wow factor" continuo</li>
+            <li>La scrivania non "evolve" fluidamente</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>🔄 "Ibrido Smart" — Canvas unica + scene swappabili</h3>
+      <p style="margin-bottom: 12px;">Un'unica canvas persistente (come A), ma le scene sono modulari (come B). Un "Scene Manager" carica/scarica oggetti 3D in base alla sezione corrente. La scrivania è un oggetto base sempre presente, gli oggetti specifici del capitolo vengono aggiunti/rimossi con transizioni morph.</p>
+
+      <div style="background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.3); border-radius: 8px; padding: 16px; margin: 12px 0;">
+        <strong style="color: #06b6d4;">Come funziona:</strong>
+        <ul style="margin: 8px 0 0; padding-left: 20px; font-size: 14px;">
+          <li>1 Canvas R3F globale + SceneManager context</li>
+          <li>Oggetti base (scrivania, monitor) sempre in scena</li>
+          <li>Oggetti sezione-specifici caricati on-demand</li>
+          <li>Transizioni morph tra stati (vecchio PC → nuovo setup)</li>
+          <li>Camera controllata da scroll con easing tra keyframe</li>
+        </ul>
+      </div>
+
+      <div style="display: flex; gap: 16px; margin-top: 12px;">
+        <div style="flex:1;">
+          <div style="color: #10b981; font-weight: 600; font-size: 13px;">✓ PRO</div>
+          <ul style="font-size: 13px; padding-left: 16px; margin: 4px 0;">
+            <li>Best of both: fluido + modulare</li>
+            <li>Gestione memoria intelligente</li>
+            <li>Sviluppo incrementale possibile</li>
+            <li>Transizioni fluide</li>
+          </ul>
+        </div>
+        <div style="flex:1;">
+          <div style="color: #ef4444; font-weight: 600; font-size: 13px;">✗ CONTRO</div>
+          <ul style="font-size: 13px; padding-left: 16px; margin: 4px 0;">
+            <li>SceneManager complesso da implementare</li>
+            <li>Gestione stato più articolata</li>
+            <li>Loading/unloading richiede cura</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

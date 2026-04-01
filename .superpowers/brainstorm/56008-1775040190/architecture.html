@@ -1,0 +1,210 @@
+<h2>Architettura Tecnica — Scena Continua</h2>
+<p class="subtitle">Come funziona sotto il cofano: React Three Fiber + GSAP ScrollTrigger + Scene State Machine</p>
+
+<div class="section">
+  <h3>🏗️ Component Tree</h3>
+  <div class="mockup">
+    <div class="mockup-header">React Component Hierarchy</div>
+    <div class="mockup-body" style="font-family: monospace; font-size: 13px; line-height: 2;">
+      <div style="color: #f59e0b;">CVPage</div>
+      <div style="padding-left: 20px;">
+        <span style="color: #6366f1;">├─</span> <span style="color: #06b6d4;">DeskCanvas</span> <span style="color: #71717a;">// R3F Canvas, position:fixed, z-index:0, 100vw×100vh</span>
+        <div style="padding-left: 20px;">
+          <span style="color: #6366f1;">├─</span> <span style="color: #8b5cf6;">CameraRig</span> <span style="color: #71717a;">// Camera su path, controllata da scroll progress</span>
+          <div style="padding-left: 20px;">
+            <span style="color: #6366f1;">└─</span> PerspectiveCamera + <span style="color: #a78bfa;">MouseParallax</span>
+          </div>
+          <span style="color: #6366f1;">├─</span> <span style="color: #8b5cf6;">LightingRig</span> <span style="color: #71717a;">// Luci che cambiano con la sezione (mood)</span>
+          <div style="padding-left: 20px;">
+            <span style="color: #6366f1;">└─</span> AmbientLight + DirectionalLight + PointLights[]
+          </div>
+          <span style="color: #6366f1;">├─</span> <span style="color: #10b981;">DeskBase</span> <span style="color: #71717a;">// Scrivania sempre presente, morph wireframe→solido</span>
+          <div style="padding-left: 20px;">
+            <span style="color: #6366f1;">├─</span> DeskSurface <span style="color: #71717a;">// Piano del tavolo</span><br>
+            <span style="color: #6366f1;">├─</span> DeskLegs <span style="color: #71717a;">// Gambe (si evolvono da basic a standing desk)</span><br>
+            <span style="color: #6366f1;">└─</span> Monitor[] <span style="color: #71717a;">// CRT → flat → ultrawide (morph)</span>
+          </div>
+          <span style="color: #6366f1;">├─</span> <span style="color: #10b981;">ChapterObjects</span> <span style="color: #71717a;">// Oggetti specifici per capitolo</span>
+          <div style="padding-left: 20px;">
+            <span style="color: #6366f1;">├─</span> useChapterState(scrollProgress) <span style="color: #71717a;">// Determina quali oggetti mostrare</span><br>
+            <span style="color: #6366f1;">├─</span> ObjectPool[] <span style="color: #71717a;">// Tazza, libri, cuffie, pianta, badge...</span><br>
+            <span style="color: #6366f1;">└─</span> FloatingElements[] <span style="color: #71717a;">// Git graph, lighthouse, costellazioni...</span>
+          </div>
+          <span style="color: #6366f1;">├─</span> <span style="color: #10b981;">InteractionLayer</span> <span style="color: #71717a;">// Raycaster per click/hover</span>
+          <div style="padding-left: 20px;">
+            <span style="color: #6366f1;">├─</span> ClickableObject[] <span style="color: #71717a;">// Hotspot con cursore custom</span><br>
+            <span style="color: #6366f1;">└─</span> HoverGlow <span style="color: #71717a;">// Outline glow su hover</span>
+          </div>
+          <span style="color: #6366f1;">├─</span> <span style="color: #10b981;">MaterialSystem</span> <span style="color: #71717a;">// Gestisce la transizione wireframe→solido</span>
+          <div style="padding-left: 20px;">
+            <span style="color: #6366f1;">└─</span> WireframeMaterial → MixMaterial → PBRMaterial
+          </div>
+          <span style="color: #6366f1;">└─</span> <span style="color: #10b981;">PostProcessing</span> <span style="color: #71717a;">// Bloom, vignette, chromatic aberration</span>
+        </div>
+      </div>
+      <div style="padding-left: 20px; margin-top: 8px;">
+        <span style="color: #6366f1;">├─</span> <span style="color: #f59e0b;">NarrativeOverlay</span> <span style="color: #71717a;">// position:relative, z-index:1, pointer-events su pannelli</span>
+        <div style="padding-left: 20px;">
+          <span style="color: #6366f1;">├─</span> ChapterIntro[] <span style="color: #71717a;">// Numero + titolo + intro text (GSAP entrance)</span><br>
+          <span style="color: #6366f1;">├─</span> NarrativePanel[] <span style="color: #71717a;">// Card semitrasparenti con backdrop-blur</span><br>
+          <span style="color: #6366f1;">├─</span> InteractionModal <span style="color: #71717a;">// Popup quando click su oggetti 3D</span><br>
+          <span style="color: #6366f1;">└─</span> ChapterTransition <span style="color: #71717a;">// Fade/wipe tra sezioni narrative</span>
+        </div>
+        <span style="color: #6366f1;">├─</span> <span style="color: #f59e0b;">Sidebar</span> <span style="color: #71717a;">// Nav laterale (già esistente, adattata)</span><br>
+        <span style="color: #6366f1;">└─</span> <span style="color: #f59e0b;">Navbar</span> <span style="color: #71717a;">// Top nav (già esistente)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>⚙️ Data Flow — Scroll → Scene State</h3>
+  <div class="mockup">
+    <div class="mockup-header">Come lo scroll controlla tutto</div>
+    <div class="mockup-body" style="font-family: monospace; font-size: 13px; line-height: 1.8;">
+      <div style="text-align: center; margin-bottom: 16px;">
+        <div style="display: inline-block; padding: 8px 20px; background: rgba(99,102,241,0.2); border: 1px solid rgba(99,102,241,0.4); border-radius: 8px;">
+          <span style="color: #818cf8;">Lenis Smooth Scroll</span>
+        </div>
+        <div style="color: #6366f1; font-size: 20px;">↓</div>
+        <div style="display: inline-block; padding: 8px 20px; background: rgba(99,102,241,0.2); border: 1px solid rgba(99,102,241,0.4); border-radius: 8px;">
+          <span style="color: #818cf8;">GSAP ScrollTrigger</span> <span style="color: #71717a;">// scrub: true, pin: DeskCanvas</span>
+        </div>
+        <div style="color: #6366f1; font-size: 20px;">↓</div>
+        <div style="display: inline-block; padding: 8px 20px; background: rgba(139,92,246,0.2); border: 1px solid rgba(139,92,246,0.4); border-radius: 8px;">
+          <span style="color: #a78bfa;">scrollProgress: 0.0 → 1.0</span> <span style="color: #71717a;">// React context / zustand store</span>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; text-align: center;">
+        <div style="padding: 12px; background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.3); border-radius: 8px;">
+          <div style="color: #06b6d4; font-weight: 600; margin-bottom: 4px;">CameraRig</div>
+          <div style="font-size: 11px; color: #a1a1aa;">Interpola position & target<br>lungo il camera path</div>
+        </div>
+        <div style="padding: 12px; background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.3); border-radius: 8px;">
+          <div style="color: #06b6d4; font-weight: 600; margin-bottom: 4px;">MaterialSystem</div>
+          <div style="font-size: 11px; color: #a1a1aa;">mix(wireframe, solid)<br>basato su progress</div>
+        </div>
+        <div style="padding: 12px; background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.3); border-radius: 8px;">
+          <div style="color: #06b6d4; font-weight: 600; margin-bottom: 4px;">ChapterObjects</div>
+          <div style="font-size: 11px; color: #a1a1aa;">Mostra/nascondi oggetti<br>con fade in/out</div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; text-align: center; margin-top: 12px;">
+        <div style="padding: 12px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px;">
+          <div style="color: #f59e0b; font-weight: 600; margin-bottom: 4px;">LightingRig</div>
+          <div style="font-size: 11px; color: #a1a1aa;">Cambia intensità/colore<br>per mood del capitolo</div>
+        </div>
+        <div style="padding: 12px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px;">
+          <div style="color: #f59e0b; font-weight: 600; margin-bottom: 4px;">NarrativeOverlay</div>
+          <div style="font-size: 11px; color: #a1a1aa;">Attiva pannelli testo<br>e transizioni capitolo</div>
+        </div>
+        <div style="padding: 12px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px;">
+          <div style="color: #f59e0b; font-weight: 600; margin-bottom: 4px;">PostProcessing</div>
+          <div style="font-size: 11px; color: #a1a1aa;">Bloom, glow intensità<br>seguono la progressione</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>🎨 Material Transition System — Il cuore dell'effetto</h3>
+  <div class="mockup">
+    <div class="mockup-header">Wireframe → Solido: come funziona tecnicamente</div>
+    <div class="mockup-body" style="font-size: 14px; line-height: 1.8;">
+      <p style="color: #a1a1aa; margin-bottom: 16px;">Ogni oggetto ha <strong style="color: #e4e4e7;">due mesh sovrapposti</strong>: wireframe + solido. Un uniform <code style="color: #06b6d4;">u_materiality</code> (0→1) controlla il mix:</p>
+
+      <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; text-align: center; margin: 16px 0;">
+        <div style="padding: 12px 8px; border-radius: 8px; border: 1px solid rgba(99,102,241,0.4);">
+          <div style="font-size: 24px; margin-bottom: 4px; opacity: 0.3;">▢</div>
+          <div style="font-size: 11px; color: #6366f1; font-weight: 600;">0.0</div>
+          <div style="font-size: 10px; color: #71717a;">Solo wireframe<br>Lines + EdgesGeometry</div>
+        </div>
+        <div style="padding: 12px 8px; border-radius: 8px; border: 1px solid rgba(99,102,241,0.4);">
+          <div style="font-size: 24px; margin-bottom: 4px; opacity: 0.5;">▢</div>
+          <div style="font-size: 11px; color: #818cf8; font-weight: 600;">0.25</div>
+          <div style="font-size: 10px; color: #71717a;">Wire + glow<br>Emissive edges</div>
+        </div>
+        <div style="padding: 12px 8px; border-radius: 8px; border: 1px solid rgba(139,92,246,0.4);">
+          <div style="font-size: 24px; margin-bottom: 4px; opacity: 0.7;">◧</div>
+          <div style="font-size: 11px; color: #a78bfa; font-weight: 600;">0.50</div>
+          <div style="font-size: 10px; color: #71717a;">Semi-transparent<br>Fill + visible edges</div>
+        </div>
+        <div style="padding: 12px 8px; border-radius: 8px; border: 1px solid rgba(6,182,212,0.4);">
+          <div style="font-size: 24px; margin-bottom: 4px; opacity: 0.85;">■</div>
+          <div style="font-size: 11px; color: #22d3ee; font-weight: 600;">0.75</div>
+          <div style="font-size: 10px; color: #71717a;">Quasi solido<br>PBR + faint edges</div>
+        </div>
+        <div style="padding: 12px 8px; border-radius: 8px; border: 1px solid rgba(245,158,11,0.4);">
+          <div style="font-size: 24px; margin-bottom: 4px;">■</div>
+          <div style="font-size: 11px; color: #fbbf24; font-weight: 600;">1.0</div>
+          <div style="font-size: 10px; color: #71717a;">Full PBR<br>Riflessi + ombre</div>
+        </div>
+      </div>
+
+      <div style="background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2); border-radius: 8px; padding: 12px; font-family: monospace; font-size: 12px; color: #a1a1aa;">
+        <span style="color: #71717a;">// Custom ShaderMaterial (semplificato)</span><br>
+        <span style="color: #8b5cf6;">uniform</span> <span style="color: #06b6d4;">float</span> u_materiality; <span style="color: #71717a;">// 0.0 = wireframe, 1.0 = solido</span><br><br>
+        <span style="color: #8b5cf6;">void</span> <span style="color: #06b6d4;">main</span>() {<br>
+        &nbsp;&nbsp;vec4 wireColor = vec4(accentColor, <span style="color: #f59e0b;">0.6</span>);<br>
+        &nbsp;&nbsp;vec4 solidColor = pbrLighting(normal, viewDir);<br>
+        &nbsp;&nbsp;gl_FragColor = <span style="color: #10b981;">mix</span>(wireColor, solidColor, u_materiality);<br>
+        &nbsp;&nbsp;gl_FragColor.rgb += edgeGlow * (<span style="color: #f59e0b;">1.0</span> - u_materiality); <span style="color: #71717a;">// edge glow fades</span><br>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>🗂️ Modelli 3D — Strategia di Produzione</h3>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+    <div style="background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.2); border-radius: 12px; padding: 16px;">
+      <h4 style="color: #818cf8; margin: 0 0 8px;">Oggetti procedurali (Three.js)</h4>
+      <p style="font-size: 13px; color: #a1a1aa; margin: 0 0 8px;">Generati in codice, come il WizardScene esistente. Ideali per wireframe puro e forme geometriche.</p>
+      <ul style="font-size: 12px; color: #a1a1aa; padding-left: 16px; margin: 0;">
+        <li>Scrivania base (box geometry)</li>
+        <li>Monitor (box + plane per schermo)</li>
+        <li>Tastiera, tazza, libri semplici</li>
+        <li>Grid/particelle/linee decorative</li>
+        <li>Floating elements (git graph, lighthouse)</li>
+      </ul>
+    </div>
+    <div style="background: rgba(6,182,212,0.06); border: 1px solid rgba(6,182,212,0.2); border-radius: 12px; padding: 16px;">
+      <h4 style="color: #22d3ee; margin: 0 0 8px;">Modelli GLTF (Blender)</h4>
+      <p style="font-size: 13px; color: #a1a1aa; margin: 0 0 8px;">Per le versioni "solide" dettagliate. Low-poly ottimizzati, con PBR materials.</p>
+      <ul style="font-size: 12px; color: #a1a1aa; padding-left: 16px; margin: 0;">
+        <li>CRT monitor (retro_computer.glb già c'è!)</li>
+        <li>Monitor flat / ultrawide</li>
+        <li>Cuffie, pianta, badge</li>
+        <li>MacBook, standing desk (cap. avanzati)</li>
+        <li>Ologramma AI, server rack</li>
+      </ul>
+    </div>
+  </div>
+  <p style="font-size: 13px; color: #71717a; margin-top: 12px; text-align: center;">💡 Approccio: parti procedurali per i primi capitoli (wireframe puro), poi introduci GLTF man mano che la materialità aumenta</p>
+</div>
+
+<div class="section">
+  <h3>⚡ Performance Budget</h3>
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; text-align: center;">
+    <div style="padding: 16px; background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); border-radius: 8px;">
+      <div style="font-size: 28px; font-weight: 700; color: #10b981;">60</div>
+      <div style="font-size: 11px; color: #a1a1aa;">FPS target</div>
+    </div>
+    <div style="padding: 16px; background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); border-radius: 8px;">
+      <div style="font-size: 28px; font-weight: 700; color: #10b981;">&lt;5MB</div>
+      <div style="font-size: 11px; color: #a1a1aa;">Modelli totali</div>
+    </div>
+    <div style="padding: 16px; background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); border-radius: 8px;">
+      <div style="font-size: 28px; font-weight: 700; color: #10b981;">&lt;50K</div>
+      <div style="font-size: 11px; color: #a1a1aa;">Triangoli visibili</div>
+    </div>
+    <div style="padding: 16px; background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); border-radius: 8px;">
+      <div style="font-size: 28px; font-weight: 700; color: #10b981;">&lt;3</div>
+      <div style="font-size: 11px; color: #a1a1aa;">Draw calls per frame</div>
+    </div>
+  </div>
+</div>
