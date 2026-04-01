@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense } from 'react'
+import { Suspense, useCallback } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { useProgress, Html } from '@react-three/drei'
 import * as THREE from 'three'
@@ -9,6 +9,10 @@ import LightingRig from './LightingRig'
 import DeskBase from './DeskBase'
 import CRTMonitor from './objects/CRTMonitor'
 import DeskChair from './objects/DeskChair'
+import CoffeeMug from './objects/CoffeeMug'
+import Notepad from './objects/Notepad'
+import PaperSheets from './objects/PaperSheets'
+import FadeInGroup from './FadeInGroup'
 import useScrollStore from '@/stores/scrollStore'
 
 function Loader() {
@@ -30,23 +34,40 @@ function Loader() {
 
 function Scene() {
   const materiality = useScrollStore((s) => s.materiality)
+  const currentChapter = useScrollStore((s) => s.currentChapter)
+  const openModal = useScrollStore((s) => s.openModal)
+
+  const handleCRTClick = useCallback(() => {
+    openModal({
+      type: 'typing',
+      content: '> Hello World\n\nconsole.log("Hello World!");\n// Il mio primo programma...',
+    })
+  }, [openModal])
 
   return (
     <>
       <CameraRig />
       <LightingRig />
 
-      {/* Desk + Chapter 00 objects */}
+      {/* Desk — always present */}
       <DeskBase materiality={materiality} />
       <CRTMonitor
         materiality={materiality}
-        position={[0, 0.83, -0.1]}
+        position={[0, 0.84, -0.3]}
+        onClick={handleCRTClick}
       />
       <DeskChair
         materiality={materiality}
-        position={[0, 0, 0.9]}
+        position={[0, 0, 1.2]}
         rotation={[0, Math.PI, 0]}
       />
+
+      {/* Ch.01+ objects — fade in smoothly */}
+      <FadeInGroup visible={currentChapter >= 1}>
+        <CoffeeMug materiality={materiality} position={[0.85, 0.8, 0.15]} />
+        <Notepad materiality={materiality} position={[-0.7, 0.795, 0.2]} rotation={[0, 0.2, 0]} />
+        <PaperSheets materiality={materiality} position={[0.5, 0.795, 0.3]} />
+      </FadeInGroup>
     </>
   )
 }
@@ -55,6 +76,8 @@ function handleCreated({ gl }) {
   gl.toneMapping = THREE.ACESFilmicToneMapping
   gl.toneMappingExposure = 1.2
   gl.outputColorSpace = THREE.SRGBColorSpace
+  // Use PCFShadowMap — PCFSoftShadowMap is deprecated in Three.js 0.183
+  gl.shadowMap.type = THREE.PCFShadowMap
 }
 
 export default function DeskCanvas() {

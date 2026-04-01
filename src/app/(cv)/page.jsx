@@ -2,6 +2,7 @@ import Sidebar from '@/components/Sidebar'
 import NarrativeOverlay from '@/components/NarrativeOverlay'
 import ScrollProgressManager from '@/components/ScrollProgressManager'
 import DeskCanvasLoader from '@/components/3d/DeskCanvasLoader'
+import InteractionModal from '@/components/InteractionModal'
 
 /**
  * Home Page - Creative CV
@@ -25,6 +26,9 @@ export default function Home() {
       <main className="relative">
         <NarrativeOverlay />
       </main>
+
+      {/* Click interaction modal (above everything) */}
+      <InteractionModal />
     </>
   )
 }

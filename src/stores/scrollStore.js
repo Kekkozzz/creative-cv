@@ -8,11 +8,13 @@ const useScrollStore = create((set) => ({
   setScrollProgress: (p) => set({
     scrollProgress: p,
     currentChapter: Math.min(10, Math.floor(p * 11)),
-    // NOTE: With only Ch.00 content, scroll range is short so materiality
-    // will stay near 0 (wireframe). As more chapters are added and scroll
-    // content grows, materiality will naturally spread across the full range.
     materiality: Math.min(1, p * 1.1),
   }),
+
+  // Interaction modal state
+  modalContent: null,
+  openModal: (content) => set({ modalContent: content }),
+  closeModal: () => set({ modalContent: null }),
 }))
 
 export default useScrollStore

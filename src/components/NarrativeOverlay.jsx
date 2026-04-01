@@ -12,18 +12,21 @@ export default function NarrativeOverlay() {
         pointerEvents: 'none',
       }}
     >
-      {/* Render chapter intros from data */}
+      {/* Render chapter intros from data with scroll space between */}
       {chapters.map((ch) => (
-        <ChapterIntro
-          key={ch.id}
-          number={ch.narrativeContent.number}
-          title={ch.narrativeContent.heading}
-          subtitle={ch.narrativeContent.text}
-        />
+        <div key={ch.id}>
+          <ChapterIntro
+            number={ch.narrativeContent.number}
+            title={ch.narrativeContent.heading}
+            subtitle={ch.narrativeContent.text}
+          />
+          {/* Scroll space for chapter content + transition */}
+          <div style={{ height: '150vh' }} />
+        </div>
       ))}
 
-      {/* Spacer for scroll length — provides scroll distance for materiality progression */}
-      <div style={{ height: '400vh' }} />
+      {/* End spacer */}
+      <div style={{ height: '100vh' }} />
     </div>
   )
 }

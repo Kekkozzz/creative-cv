@@ -1,18 +1,17 @@
 export const cameraKeyframes = [
   {
     chapter: 0,
-    scrollRange: [0.0, 0.09],
-    position: [0, 2, 8],
-    target: [0, 0.5, 0],
-    fov: 60,
+    scrollRange: [0.0, 0.15],
+    position: [0, 1.8, 4.5],
+    target: [0, 0.7, 0],
+    fov: 50,
   },
-  // Placeholder keyframes for future chapters
   {
     chapter: 1,
-    scrollRange: [0.09, 0.18],
-    position: [-2, 1.5, 5],
-    target: [0, 0.5, 0],
-    fov: 55,
+    scrollRange: [0.15, 0.25],
+    position: [-1.5, 1.5, 3.5],
+    target: [0, 0.8, -0.2],
+    fov: 48,
   },
 ]
 
