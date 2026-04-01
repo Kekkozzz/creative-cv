@@ -17,6 +17,9 @@ import FlatMonitor from './objects/FlatMonitor'
 import DeskClock from './objects/DeskClock'
 import ServerRack from './objects/ServerRack'
 import FloatingTerminal from './objects/FloatingTerminal'
+import SecondMonitor from './objects/SecondMonitor'
+import Headphones from './objects/Headphones'
+import DeskPlant from './objects/DeskPlant'
 import FadeInGroup from './FadeInGroup'
 import useScrollStore from '@/stores/scrollStore'
 
@@ -66,14 +69,23 @@ function Scene() {
       <FadeInGroup visible={currentChapter >= 2}>
         <FlatMonitor materiality={Math.max(materiality, currentChapter >= 3 ? 0.7 : 0)} position={[0, 0.79, -0.35]} />
         <Keyboard materiality={materiality} position={[0, 0.795, 0.15]} />
-        <BookStack materiality={materiality} position={[-0.85, 0.92, -0.15]} scale={0.20} />
+        <BookStack materiality={materiality} position={[-0.85, 0.90, -0.15]} scale={0.15} />
         <DeskClock materiality={materiality} position={[0.95, 0.79, -0.25]} rotation={[0, -0.3, 0]} />
       </FadeInGroup>
 
-      {/* Ch.03+ objects — server rack behind desk, floating DB schema */}
+      {/* Ch.03+ objects — server rack persists, terminal only on Ch.03 */}
       <FadeInGroup visible={currentChapter >= 3}>
         <ServerRack materiality={materiality} position={[1.8, 0, -0.3]} />
+      </FadeInGroup>
+      <FadeInGroup visible={currentChapter === 3}>
         <FloatingTerminal position={[0, 1.1, -0.32]} />
+      </FadeInGroup>
+
+      {/* Ch.04+ objects — second monitor, headphones, plant (React moment) */}
+      <FadeInGroup visible={currentChapter >= 4}>
+        <SecondMonitor materiality={materiality} position={[0.75, 0.79, -0.4]} rotation={[0, -0.25, 0]} />
+        <Headphones materiality={materiality} position={[-0.5, 0.88, 0.35]} rotation={[0.1, 0.4, 0]} />
+        <DeskPlant materiality={materiality} position={[1.05, 0.79, 0.3]} />
       </FadeInGroup>
     </>
   )

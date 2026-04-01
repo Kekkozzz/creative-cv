@@ -35,10 +35,8 @@ export default function FloatingTerminal({ ...rest }) {
   useFrame((_, delta) => {
     const fade = typeof fadeRefOrValue === 'number' ? fadeRefOrValue : fadeRefOrValue.current
 
-    // Animate: scale up and move toward camera
-    const target = fade > 0.1 ? 1 : 0
-    progress.current = THREE.MathUtils.lerp(progress.current, target, Math.min(1, delta * 1.5))
-    const p = progress.current
+    // Scale and Z position follow fade directly — moves forward when visible, back when fading out
+    const p = fade
 
     if (groupRef.current) {
       const s = THREE.MathUtils.lerp(START_SCALE, END_SCALE, p)

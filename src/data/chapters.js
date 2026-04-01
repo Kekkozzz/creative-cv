@@ -68,4 +68,19 @@ export const chapters = [
       text: "PHP non era sexy come JavaScript. Laravel sembrava enorme. Ma ho capito che costruire le fondamenta solide era essenziale. Ogni Model, ogni Controller, ogni Migration era un mattone del mio futuro.",
     },
   },
+  {
+    id: 4,
+    title: 'REACT',
+    subtitle: 'Quando ho capito',
+    materiality: 0.5,
+    objects: ['desk', 'flatMonitor', 'secondMonitor', 'chair', 'mug', 'keyboard', 'books', 'headphones', 'plant'],
+    clickables: [],
+    bloomIntensity: 0.8,
+    narrativePosition: 'right',
+    narrativeContent: {
+      number: '04',
+      heading: 'React',
+      text: "C'è stato un momento preciso. Stavo costruendo il mio primo componente React e ho capito: 'Ecco cosa voglio fare'. Non era più solo codice, era creare esperienze.",
+    },
+  },
 ]
