@@ -28,6 +28,9 @@ import AIPromptPanel from './objects/AIPromptPanel'
 import AnimationLoopPanel from './objects/AnimationLoopPanel'
 import ColorParticles from './objects/ColorParticles'
 import MugSteam from './objects/MugSteam'
+import LighthousePanel from './objects/LighthousePanel'
+import ThreeJSScene from './objects/ThreeJSScene'
+import TechConstellation from './objects/TechConstellation'
 import FadeInGroup from './FadeInGroup'
 import useScrollStore from '@/stores/scrollStore'
 
@@ -136,6 +139,21 @@ function Scene() {
           position={[0.18, 1.2, -0.12]}
         />
         <MugSteam position={[0.85, 0.92, 0.15]} />
+      </FadeInGroup>
+
+      {/* Ch.08 only — Next.js: Lighthouse scores panel from main monitor */}
+      <FadeInGroup visible={currentChapter === 8}>
+        <LighthousePanel position={[0, 1.1, -0.35]} />
+      </FadeInGroup>
+
+      {/* Ch.09 only — Three.js: floating geometric shapes orbiting above desk */}
+      <FadeInGroup visible={currentChapter === 9}>
+        <ThreeJSScene position={[0, 1.4, 0]} />
+      </FadeInGroup>
+
+      {/* Ch.10 only — Today & Tomorrow: tech constellation zoomed out */}
+      <FadeInGroup visible={currentChapter === 10}>
+        <TechConstellation position={[0, 1.5, 0.5]} scale={1.5} />
       </FadeInGroup>
     </>
   )
