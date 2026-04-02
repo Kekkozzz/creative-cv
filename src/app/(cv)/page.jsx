@@ -23,7 +23,7 @@ export default function Home() {
       <ScrollProgressManager />
 
       {/* Narrative content scrolling over the 3D scene */}
-      <main className="relative">
+      <main className="relative" style={{ pointerEvents: 'none' }}>
         <NarrativeOverlay />
       </main>
 
