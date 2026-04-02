@@ -153,7 +153,7 @@ function Scene() {
 
       {/* Ch.10 only — Today & Tomorrow: tech constellation zoomed out */}
       <FadeInGroup visible={currentChapter === 10}>
-        <TechConstellation position={[0, 1.5, 0.5]} scale={1.5} />
+        <TechConstellation position={[0, 1.5, 0.5]} scale={2.55} />
       </FadeInGroup>
     </>
   )
