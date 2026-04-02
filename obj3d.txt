@@ -1,0 +1,35 @@
+Oggetti da scrivania (desk setup)
+Oggetto	File	Complessità
+Scrivania	DeskBase.jsx	Piano + 4 gambe
+Sedia da ufficio	DeskChair.jsx	Seduta + schienale + palo + base
+Monitor CRT	CRTMonitor.jsx	Box + stand + schermo
+Monitor flat	FlatMonitor.jsx	Pannello + collo + base
+Secondo monitor	SecondMonitor.jsx	Come sopra
+Tastiera	Keyboard.jsx	Base + 48 tasti individuali
+Cuffie	Headphones.jsx	Archetto + 2 padiglioni + 2 cuscinetti
+Tazza caffè	CoffeeMug.jsx	Cilindro + manico torus
+Vapore tazza	MugSteam.jsx	3 sfere animate
+Pianta da scrivania	DeskPlant.jsx	Vaso + terra + 5 foglie
+Orologio	DeskClock.jsx	Frame + stand + display
+Blocco note	Notepad.jsx	Pad + dorso
+Fogli di carta	PaperSheets.jsx	3 fogli sparsi
+Post-it	PostItWall.jsx	8 post-it colorati
+Badge ID	IDBadge.jsx	Tessera + foto + clip
+PC Tower	ServerRack.jsx	Case + pannello + bay + LED + ventole (13+ parti)
+Pannelli UI / infografiche 3D
+Oggetto	File	Nota
+Terminale	FloatingTerminal.jsx	Pannello con comandi PHP
+Git Graph	GitGraph.jsx	Pannello comandi git
+Schema DB	FloatingSchema.jsx	4 tabelle wireframe + connessioni
+Lighthouse Panel	LighthousePanel.jsx	Metriche performance
+AI Prompt Panel	AIPromptPanel.jsx	Prompt/risposta AI
+Animation Loop Panel	AnimationLoopPanel.jsx	Timeline GSAP con curve
+Tech Constellation	TechConstellation.jsx	Grafo tech stack (7 nodi + 9 connessioni)
+Oggetti astratti / effetti
+Oggetto	File	Nota
+AI Hologram	AIHologram.jsx	Icosaedro wireframe + particelle orbitanti
+Color Particles	ColorParticles.jsx	14 particelle colorate
+ThreeJS Scene	ThreeJSScene.jsx	5 poliedri wireframe orbitanti
+Gia modello GLTF
+Oggetto	File
+Pila di libri	BookStack.jsx — usa book_stack.glb
