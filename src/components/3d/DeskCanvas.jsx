@@ -14,7 +14,6 @@ import PaperSheets from './objects/PaperSheets'
 import Keyboard from './objects/Keyboard'
 import BookStack from './objects/BookStack'
 import FlatMonitor from './objects/FlatMonitor'
-import DeskClock from './objects/DeskClock'
 import ServerRack from './objects/ServerRack'
 import FloatingTerminal from './objects/FloatingTerminal'
 import SecondMonitor from './objects/SecondMonitor'
@@ -22,7 +21,6 @@ import Headphones from './objects/Headphones'
 import DeskPlant from './objects/DeskPlant'
 import PostItWall from './objects/PostItWall'
 import GitGraph from './objects/GitGraph'
-import IDBadge from './objects/IDBadge'
 import AIHologram from './objects/AIHologram'
 import AIPromptPanel from './objects/AIPromptPanel'
 import AnimationLoopPanel from './objects/AnimationLoopPanel'
@@ -84,12 +82,12 @@ function Scene() {
 
       {/* Ch.02+ objects — flat monitor replaces CRT, keyboard, books, clock */}
       {/* Monitor gets more solid at Ch.03+ so terminal text reads better against it */}
-      <FadeInGroup visible={currentChapter >= 2}>
+      {/* <FadeInGroup visible={currentChapter >= 2}>
         <FlatMonitor materiality={Math.max(materiality, currentChapter >= 3 ? 0.7 : 0)} position={[0, 0.79, -0.35]} />
         <Keyboard materiality={materiality} position={[0, 0.795, 0.15]} />
         <BookStack materiality={materiality} position={[-0.85, 0.90, -0.15]} scale={0.15} />
         <DeskClock materiality={materiality} position={[0.95, 0.79, -0.25]} rotation={[0, -0.3, 0]} />
-      </FadeInGroup>
+      </FadeInGroup> */}
 
       {/* Ch.03+ objects — server rack persists, terminal only on Ch.03 */}
       <FadeInGroup visible={currentChapter >= 3}>
@@ -101,26 +99,26 @@ function Scene() {
 
       {/* Ch.04+ objects — second monitor, headphones, plant (React moment) */}
       <FadeInGroup visible={currentChapter >= 4}>
-        <SecondMonitor materiality={materiality} position={[0.75, 0.79, -0.4]} rotation={[0, -0.25, 0]} />
+        <SecondMonitor materiality={materiality} position={[0.75, 0.79, -0.2]} rotation={[0, -0.25, 0]} />
         <Headphones materiality={materiality} position={[-0.5, 0.88, 0.35]} rotation={[0.1, 0.4, 0]} />
         <DeskPlant materiality={materiality} lively={currentChapter === 7} position={[1.05, 0.79, 0.3]} />
       </FadeInGroup>
 
       {/* Ch.05+ object — badge stays from first job onward */}
-      <FadeInGroup visible={currentChapter >= 5}>
+      {/* <FadeInGroup visible={currentChapter >= 5}>
         <IDBadge
           materiality={materiality}
           position={[-0.18, 0.803, 0.42]}
           rotation={[0, 0.2, 0.06]}
         />
-      </FadeInGroup>
+      </FadeInGroup> */}
 
       {/* Ch.05 only objects — disappear at Ch.06 */}
       <FadeInGroup visible={currentChapter === 5}>
         {/* Post-its floating out of the main monitor screen area */}
         <PostItWall materiality={materiality} position={[0, 1.1, -0.32]} />
         {/* Git stats panel from second monitor — same angle as SecondMonitor */}
-        <GitGraph position={[0.74, 1.08, -0.38]} rotation={[0, -0.25, 0]} />
+        <GitGraph position={[0.74, 1.08, -0.18]} rotation={[0, -0.25, 0]} />
       </FadeInGroup>
 
       {/* Ch.06 only — AI hologram floating above desk + prompt panel from main monitor */}
