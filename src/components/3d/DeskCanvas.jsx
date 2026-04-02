@@ -14,6 +14,7 @@ import PaperSheets from './objects/PaperSheets'
 import Keyboard from './objects/Keyboard'
 import BookStack from './objects/BookStack'
 import FlatMonitor from './objects/FlatMonitor'
+import DeskClock from './objects/DeskClock'
 import ServerRack from './objects/ServerRack'
 import FloatingTerminal from './objects/FloatingTerminal'
 import SecondMonitor from './objects/SecondMonitor'
@@ -82,12 +83,12 @@ function Scene() {
 
       {/* Ch.02+ objects — flat monitor replaces CRT, keyboard, books, clock */}
       {/* Monitor gets more solid at Ch.03+ so terminal text reads better against it */}
-      {/* <FadeInGroup visible={currentChapter >= 2}>
+      <FadeInGroup visible={currentChapter >= 2}>
         <FlatMonitor materiality={Math.max(materiality, currentChapter >= 3 ? 0.7 : 0)} position={[0, 0.79, -0.35]} />
         <Keyboard materiality={materiality} position={[0, 0.795, 0.15]} />
         <BookStack materiality={materiality} position={[-0.85, 0.90, -0.15]} scale={0.15} />
         <DeskClock materiality={materiality} position={[0.95, 0.79, -0.25]} rotation={[0, -0.3, 0]} />
-      </FadeInGroup> */}
+      </FadeInGroup>
 
       {/* Ch.03+ objects — server rack persists, terminal only on Ch.03 */}
       <FadeInGroup visible={currentChapter >= 3}>
